@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "Player Funds";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+    <script>
+        window.onload = function () {
+            
+            
+            selectionFunction();
+            
+        };
+
+        function selectionFunction()
+        {
+            
+            @foreach(var i in ViewBag.funds)
+            {
+                foreach(var j in ViewBag.player.Funds)
+                {
+                     if (i.fund_id == j.fund_id) {
+                        @:$("div#@j.fund_id select").val("1");
+                    }
+                }
+               
+            }
+            @{
+              
+                Session["funds"] = ViewBag.funds;
+                Session["player"] = ViewBag.player;
+                
+            
+            }
+            
+        }
+    </script>
+</head>
+<body>
+    <h2> Player Fund Status</h2>
+    @{
+      
+        if (Session["Role"] != null && (Session["Role"].ToString().Equals("Admin") || Session["Role"].ToString().Equals("Super User")))
+        {
+            @*<a class="btn btn-warning" href="/Fund/Player_Fund_Update" style="float:left">Save&nbsp;<i class="fa fa-money"></i></a>*@
+    
+        <a class="btn btn-warning" onclick="sendFunction()" style="float:left">Save&nbsp;<i class="fa fa-money"></i></a>
+           
+        }
+    }
+    <input type="text" id="search" placeholder="Type to search" style="color:black" />
+    <div class="component">
+        <h2 style="float:left">@ViewBag.player.name</h2>
+        <table class="colorOfRowData overflow-y">
+            <thead>
+                <tr>
+                
+                    <th>Fund Info</th>
+                    <th>Amount</th>
+                    <th>Player Status</th>
+                    <th>Fund Status</th>
+
+                </tr>
+            </thead>
+            <tbody id="tableid">
+                
+                @foreach (var item in ViewBag.funds)
+                {
+
+
+
+                    //you will open user info page
+                    <tr>
+                        <th>
+                            @{
+                                foreach (var i in ViewBag.monthList)
+                                {
+                                    if (i.Value == item.month.ToString())
+                                    {
+                                        @i.Text
+                                    }
+                                }
+
+                                
+                                }
+
+
+                        , @item.year
+
+                        </th>
+                        
+                            
+                        <td>@item.amount</td>
+                        @if (Session["Role"] != null && (Session["Role"].ToString().Equals("Admin") || Session["Role"].ToString().Equals("Super User")))
+                        {
+                           <td>
+                            <div id="@item.fund_id">
+                                <select>
+                                    <option value="0">Not Paid</option>
+                                    <option value="1">Paid</option>
+
+                                </select>
+                            </div>
+                        
+                           </td>  
+                        }
+                        else
+                        {
+                            <td>
+                            <div id="@item.fund_id">
+                                <select disabled>
+                                    <option value="0">Not Paid</option>
+                                    <option value="1">Paid</option>
+                                   
+                                </select>
+                            </div>
+                      
+                              </td>
+                      
+                            
+                        }
+                        <td>
+                            @if (item.status == 1)
+                            {
+                                <b style="color:green">Active</b>
+                            }
+                            else if (item.status == 2)
+                            {
+                                <b style="color:blue">Disable</b>
+                            }
+                            else if (item.status == 3)
+                            {
+                                <b style="color:red">Inactive</b>
+                            }
+
+
+                        </td>
+                        
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+    <script src="~/Scripts/jquery.stickyheader.js"></script>
+
+    <script>
+
+    function sendFunction() {
+        @{
+            @:var status = "";
+                foreach(var fund in ViewBag.funds)
+                {
+                    @:status = status +","+ $("div#@fund.fund_id").find(":selected").val();
+                 
+                }
+            }
+
+        swal({
+            title: "Saved!",
+            text: 'Success',
+            type: 'success',
+            timer: 2000,
+            showConfirmButton: false,
+
+        });
+        setTimeout(function () {
+            window: location.href = "/Fund/Player_Fund_Update?status="+status   
+            //window: location.href = "/Fund/Player_Fund_Update?player="
+        }, 2000);
+    }
+    </script>
+
+    <script>
+        $(function () {
+            $('.row').click(function () {
+
+            });
+            $('.row .link').click(function (e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    <script>
+
+        var $rows = $('#tableid tr');
+        $('#search').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    </script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,222 @@
+﻿@model IEnumerable<EverUnited.Models.News>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+<body>
+    <h2> News & Events</h2>
+    @{
+        
+        if (Session["Role"] != null && (Session["Role"].ToString().Equals("Admin") || Session["Role"].ToString().Equals("Super User")))
+        {
+            <a class="btn btn-primary" href="/News/Create" style="float:left">Add New &nbsp;<i class="fa fa-newspaper-o"></i></a>
+        }
+    }
+    <input type="text" id="search" placeholder="Type to search" style="color:black;" />
+    <div class="component">
+
+        <table class="colorOfRowData overflow-y">
+            <thead>
+                <tr>
+                    <th>Demo</th>
+                    <th>Item ID</th>
+                    <th>Version</th>
+                    <th>Headline</th>
+                    <th>Arrival Datetime</th>
+                    <th>About Player</th>
+                    <th>Posted By</th>
+                    <th>Status</th>
+                    <th>Last Modified Datetime</th>
+                    <th>Last Modified By</th>
+                    
+                    <th>Edit</th>
+                    <th>Delete</th>
+
+
+                </tr>
+            </thead>
+            <tbody id="tableid">
+                @foreach (var item in Model)
+                {
+
+
+
+                    //you will open user info page
+                    <tr>
+                        <th><a href="/News/Details/@item.itemid" class="btn btn-info" style="color:black"/><i class="fa fa-video-camera" ></i></th>
+                        <td>
+                            @item.itemid
+                            @*<i style="float:right" onclick="window.open('@(Url.Action("Details", "Player", new { id= item.itemid}))')" class="fa fa-info-circle"></i>*@
+                        </td>
+                        <td>
+                            @item.record_sequence_number
+                        </td>
+                        <td>
+                            @item.headline
+                        </td>
+                        <td>
+                            @item.arrival_datetime
+                        </td>
+                        <td>
+                            @{
+                                if (item.Player != null)
+                                {
+                                    @item.Player.name
+                                }   
+                            }
+                        </td>
+                        <td>
+                            @item.posted_by
+                        </td>
+                        <td>
+                            @if(item.status == 1)
+                            {
+                                <b style="color:green">Published</b>
+                            }
+                            else if (item.status == 2)
+                            {
+                                <b style="color:blue">Active</b>
+                            }
+                            else if (item.status == 3)
+                            {
+                                <b style="color:red">Disable</b>
+                            }
+                            else if (item.status == 4)
+                            {
+                                <b style="color:red">Inactive</b>
+                            }
+                           
+                        </td>
+                        <td>
+                            @item.last_modified_datetime
+                        </td>
+                        <td>
+                            @item.last_modified_by
+                        </td>
+
+                        @{
+                    if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin") || Session["Role"].ToString().Equals("Super User"))
+                    {
+                        <td class="link">
+                            <a href="/News/Edit/@item.itemid" class="btn btn-default"><i class='fa fa-edit'></i></a>
+
+                        </td>
+                            <td class="link"><a onclick="deleteFunction(@item.itemid)" class="btn btn-default"><i class='fa fa-remove'></i></a></td>
+
+                    }
+                    else
+                    {
+                        <td class="link">
+                            <a href="/News/Edit/@item.itemid" class="btn btn-default disabled"><i class='fa fa-edit'></i></a>
+
+                        </td>
+                            <td class="link"><a onclick="deleteFunction(@item.itemid)" class="btn btn-default disabled"><i class='fa fa-remove'></i></a></td>
+
+                    }
+
+                        }
+
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+    <script src="~/Scripts/jquery.stickyheader.js"></script>
+
+    <script>
+
+        function deleteFunction(idd)
+        {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this player!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: "cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    swal({
+                        title: "Deleted!",
+                        text: 'Success',
+                        type:'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+
+                    });
+                    setTimeout(function () {
+                        window: location.href = "/News/DeleteConfirmed?id=" + idd
+                    }, 2000);
+
+
+                } else {
+                    swal({
+                        title: "Cancelled",
+                        text: 'Player is safe :)',
+                        timer: 1000,
+                        showConfirmButton: false,
+
+                    });
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        $(function () {
+            $('.row').click(function () {
+
+            });
+            $('.row .link').click(function (e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    <script>
+
+        var $rows = $('#tableid tr');
+        $('#search').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+

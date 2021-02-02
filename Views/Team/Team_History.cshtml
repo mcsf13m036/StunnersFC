@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+<body>
+    <h2>Match History</h2>
+    <input type="text" id="search" placeholder="Type to search" style="color:black" />
+
+    <div class="component">
+        <h2 style="float:left"><b style="color:white">@ViewBag.team_one</b> vs <b>@ViewBag.team_two</b></h2>
+        
+        <h2 style="float:right">Win: @ViewBag.win_perc %</h2>
+        <table class="colorOfRowData overflow-y">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Match Details</th>
+                    <th>Score</th>
+                    <th>Rating</th>
+                    <th>Selected Team</th>
+                    
+                </tr>
+            </thead>
+            <tbody id="tableid">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@item.match_date </th>
+                        <td>
+                            
+                            <i style="float:right" onclick="window.open('@(Url.Action("Details", "Match", new { id= item.match_id}))')" class="fa fa-info-circle"></i>
+                        </td>
+                        <td>
+                            @{
+                    if (item.team_one_score != null)
+                    {
+                        if (item.team_one_score > item.team_two_score)
+                        {
+                            <b style="color:green">@item.team_one_score : @item.team_two_score</b>
+                        }
+                        else if (item.team_two_score > item.team_one_score)
+                        {
+                            <b style="color:red">@item.team_one_score : @item.team_two_score</b>
+                        }
+                        else
+                        {
+                             <b style="color:black">@item.team_one_score : @item.team_two_score</b>
+                        }
+                        
+                    }
+                    else
+                    {
+                        <p>Not Set</p>
+                    }
+
+                 
+
+                            }
+
+
+                        </td>
+                        <td>
+                            @{
+                    if (item.avg_def_rating != null)
+                    {
+                        <b>@item.avg_def_rating</b>
+                    }
+                    else
+                    {
+                        <p>Not Set</p>
+                    }
+
+
+                            }
+
+
+                        </td>
+
+                        <td>
+                            <i style="float:right" onclick="window.open('@(Url.Action("selectedPlayers", "Player", new { match_id = item.match_id, teamOne = item.team_one, teamTwo = item.team_two }))')" class="fa fa-info-circle"></i>
+                            
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+    <script src="~/Scripts/jquery.stickyheader.js"></script>
+
+    <script>
+
+        function deleteFunction(idd)
+        {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this match!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: "cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    swal({
+                        title: "Deleted!",
+                        text: 'Success',
+                        type:'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+
+                    });
+                    setTimeout(function () {
+                        window: location.href = "/Match/DeleteConfirmed?id=" + idd
+                    }, 2000);
+
+
+                } else {
+                    swal({
+                        title: "Cancelled",
+                        text: 'Match is safe :)',
+                        timer: 1000,
+                        showConfirmButton: false,
+
+                    });
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        $(function () {
+            $('.row').click(function () {
+
+            });
+            $('.row .link').click(function (e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    <script>
+
+        var $rows = $('#tableid tr');
+        $('#search').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    </script>
+
+</body>
+</html>

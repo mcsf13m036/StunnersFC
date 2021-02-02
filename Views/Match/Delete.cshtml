@@ -1,0 +1,82 @@
+﻿@model EverUnited.Models.Match
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Match</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.team_one)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.team_one)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.team_two)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.team_two)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.team_one_score)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.team_one_score)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.team_two_score)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.team_two_score)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.venue)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.venue)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.duration)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.duration)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.match_type)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.match_type)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.match_date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.match_date)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.match_id)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.match_id)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

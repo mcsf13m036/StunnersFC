@@ -1,0 +1,217 @@
+﻿@model EverUnited.Models.Fund
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+
+<div class="component">
+
+    <h2 style="float:left"><b>                               @{
+                                   foreach (var i in ViewBag.monthList)
+                                   {
+                                       if (i.Value == Model.month.ToString())
+                                       {
+                                           <p>@i.Text</p>
+                                       }
+                                   }
+                               }
+        </b> @Model.year</h2>
+    <table class="colorOfRowData">
+        <thead>
+            <tr>
+                <th>Fund</th>
+                <th>Details</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <tr>
+                <th>Amount</th>
+                <td><b>@Model.amount </b></td>
+            </tr>
+            <tr>
+                <th>Paid By Player</th>
+
+                <td>
+
+                    <table class="colorOfRowData overflow-y">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Matches Played</th>
+                                <th>Funds Paid</th>
+                              
+
+                            </tr>
+                        </thead>
+                        @{
+
+                            foreach (var player in Model.Players.ToList())
+                            {
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>@player.name</b>
+                                            <i onclick="window.open('@(Url.Action("Details", "Player", new { id= player.player_id}))')"
+                                               class="fa fa-info-circle" style="float:right"></i>
+
+                                        </td>
+                                        <td>
+                                            <b>@player.Matches.Count</b>
+                                        </td>
+                                        <td>
+                                            <b>@player.Funds.Count</b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+
+                            }
+                        }
+
+                    </table>
+
+
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Created Date
+                </th>
+                <td>
+                    @Model.created_datetime
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Created By
+                </th>
+                <td>
+                    @Model.created_by
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Last Modified Date
+                </th>
+                <td>
+                    @Model.last_modified_datetime
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Last Modified By
+                </th>
+                <td>
+                    @Model.last_modified_by
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Month
+                </th>
+                <td>
+                    @{
+                        foreach (var i in ViewBag.monthList)
+                        {
+                            if (i.Value == Model.month.ToString())
+                            {
+                                <p>@i.Text</p>
+                            }
+                        }
+                    }
+
+                </td>
+
+
+            </tr>
+            <tr>
+                <th>
+                   Year
+                </th>
+                <td>
+                    @Model.year
+                </td>
+            </tr>
+            <tr>
+                <th>
+                   Description
+                </th>
+                <td>
+                    @Model.description
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Status
+                </th>
+                <td>
+                    @if (Model.status == 1)
+                    {
+                        <b style="color:green">Active</b>
+                    }
+                    else if (Model.status == 2)
+                    {
+                        <b style="color:blue">Disable</b>
+                    }
+                    else if (Model.status == 3)
+                    {
+                        <b style="color:red">Inactive</b>
+                    }
+
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <th>Action</th>
+                <td>
+
+                    @{
+                        if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                        {
+                            <p>
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.fund_id }) |
+                                @Html.ActionLink("Back to List", "Index")
+                            </p>                    }
+                        else
+                        {
+                            <p> @Html.ActionLink("Edit", "Edit", new { id = Model.fund_id }, new { @class = "btn btn-link disabled" })| @Html.ActionLink("Back to List", "Index")</p>
+                        }
+                    }
+
+
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+

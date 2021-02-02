@@ -1,0 +1,254 @@
+﻿@model EverUnited.Models.Match_Defender
+
+@{
+    ViewBag.Title = "Rating";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+    <script src="https://www.hostingreviews.website/google-maps-authorization.js?id=6b2c467f-f67b-6f74-575e-5db79cfb2344&c=google-maps-code&u=1469369613" defer="defer" async="async"></script>
+
+
+</head>
+<h2>Add Player Defence Rating</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <p class="err">
+        @Html.ValidationSummary(true)
+
+
+    </p>
+    if(Session["ratingError"] != null)
+    {
+      <p style="color:black;background-color:red">@Session["ratingError"].ToString()</p>
+      
+    }
+    
+    
+    <div class="component">
+
+        <table class="colorOfRowData" id="myTable">
+            <thead>
+                <tr>
+                    <th><a class="btn btn-default" onclick="addRow()">+</a></th>
+                    <th>Player</th>
+                    <th>Rating</th>
+                    <th>Description</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+    try
+    {
+        
+        int players_count = (int)ViewBag.players;
+        if (players_count < 1 )
+        {
+            <tr>
+                <td>
+                    <script>
+                        swal({
+                            title: "Warning",
+                            text: 'Please select team',
+                            type: 'warning',
+                            showConfirmButton: true,
+
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                window: location.href = "/Match/Index"
+
+
+                            }
+
+                        }
+                        );
+
+                    </script>
+                </td>
+            </tr>
+
+        }
+
+        
+
+                    <tr hidden>
+                        @*<td>@Html.HiddenFor(m => m.Id)</td>*@
+                    </tr>
+
+        //for (int i = 0; i < players_count; i++)
+        @*foreach(var d in Model)
+        {
+            <tr>
+                <th>Player</th>
+
+                <td>
+                    @d.name
+                </td>
+
+                <td>
+                    @d.rating
+                </td>
+
+                <td>
+                    @d.rate_description
+                </td>
+
+
+            </tr>
+
+        }*@
+    }
+    catch
+    {
+        <tr>
+            <td>
+                <script>
+                    swal({
+                        title: "Warning",
+                        text: 'Please select team.',
+                        type: 'warning',
+                        showConfirmButton: true,
+
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            window: location.href = "/Match/Index"
+
+
+                        }
+
+                    }
+                    );
+
+                </script>
+            </td>
+        </tr>
+    }
+
+                }
+                <tr>
+                    <th>Action</th>
+                    <td><input class="btn btn-primary" type="submit" value="Create" /> | @Html.ActionLink("Back to List", "Index", "Match")</td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+
+    </div>
+    
+    <div id='td1' style='display:none'>
+        @Html.DropDownList("player_id", String.Empty)
+        
+    </div>
+    <div id="td2" style='display:none'>
+        @Html.EditorFor(model => model.rating)
+        <span style="color:red">
+            @Html.ValidationMessageFor(model => model.rating)
+        </span>
+
+    </div>
+    <div id="td3" style='display:none'>
+        @Html.TextAreaFor(model => model.rate_description)
+        <span style="color:red">
+            @Html.ValidationMessageFor(model => model.rate_description)
+        </span>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+
+
+<script>
+
+    var img = document.getElementById('google');
+    var src = $('#google').attr('src');
+
+    $("#gm").val(src);
+    //alert(img.getAttribute('src')); // foo.jpg
+    //alert(img.src);                 // http://..../foo.jpg
+
+
+</script>
+<script>
+    function addRow()
+    {
+        var count = '@ViewBag.players';
+        var tcount = $('#myTable tr').length - 3;//3 is for existing rows
+        
+        //alert(count+"  "+tcount);
+
+        if (tcount < count)
+        {
+            var td1 = $('#td1').html();
+            var td2 = $('#td2').html();
+            var td3 = $('#td3').html();
+
+
+            var newRow = "<tr><th>" + '' + "</th>"
+            + "<td>" + td1 + "</td>"
+            + "<td>" + td2 + "</td>"
+            + "<td>" + td3 + "</td>"
+            + "</tr>";
+
+
+
+            $('#myTable tr:last').before(newRow);
+
+        }
+        else
+        {
+            
+            swal({
+                title: "Warning",
+                text: 'Please select more players first',
+                type: 'warning',
+                showConfirmButton: true,
+
+            },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                //window: location.href = "/Match/Index"
+
+
+                            }
+
+                        }
+                        );
+        }
+        
+        
+
+
+    }
+</script>
+

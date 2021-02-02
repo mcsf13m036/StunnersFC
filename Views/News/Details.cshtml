@@ -1,0 +1,174 @@
+﻿@model EverUnited.Models.News
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+
+<div class="component">
+
+    <h2 style="float:left">@Html.DisplayFor(model => model.headline)</h2>
+    <table class="colorOfRowData">
+        <thead>
+            <tr>
+                <th>News</th>
+                <th>Events</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.itemid)</th>
+                <td>@Html.DisplayFor(model => model.itemid)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.record_sequence_number)</th>
+                <td>@Html.DisplayFor(model => model.record_sequence_number)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.related_info_link)</th>
+                <td>
+                    
+                    @if(Model.related_info_link != null)
+                    {
+                        <a href="@Model.related_info_link">Details</a>   
+                    }
+                    else
+                    {
+                        <p>Not Set</p>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.image_path)</th>
+                <td>
+                    @if (Model.image_path != null)
+                    {
+                        <img width="500" height="500" src="@Model.image_path" class="img-thumbnail" style="float:right" />
+
+                    }
+                    else
+                    {
+                        <p>Not Set</p>
+                    }
+                </td>
+
+
+
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.status)</th>
+                <td>
+                    @if (Model.status == 1)
+                    {
+                        <b style="color:green">Published</b>
+                    }
+                    else if (Model.status == 2)
+                    {
+                        <b style="color:blue">Active</b>
+                    }
+                    else if (Model.status == 3)
+                    {
+                        <b style="color:red">Disable</b>
+                    }
+                    else if (Model.status == 4)
+                    {
+                        <b style="color:red">Inactive</b>
+                    }
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.news_text)</th>
+                <td>@Html.DisplayFor(model => model.news_text)</td>
+            </tr>
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.arrival_datetime)</th>
+                <td>@Html.DisplayFor(model => model.arrival_datetime)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.last_modified_by)</th>
+                <td>@Html.DisplayFor(model => model.last_modified_by)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.last_modified_datetime)</th>
+                <td>@Html.DisplayFor(model => model.last_modified_datetime)</td>
+            </tr>
+            
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.about_player_id)</th>
+                <td>
+                    @{
+
+                        if (Model.Player == null)
+                        {
+                            <p>Not Set</p>
+                        }
+                        else
+                        {
+                            <p>@Model.Player.name</p>
+                        }
+                        
+
+                    }
+
+
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.posted_by)</th>
+                <td>@Html.DisplayFor(model => model.posted_by)</td>
+            </tr>
+            
+            <tr>
+                <th>Action</th>
+                <td>
+                    @{
+                        if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin") || Session["Role"].ToString().Equals("Super User"))
+                        {
+                            <p>@Html.ActionLink("Edit", "Edit", new { id = Model.itemid })| @Html.ActionLink("Back to List", "Index")</p>
+
+                        }
+                        else
+                        {
+                            <p>@Html.ActionLink("Edit", "Edit", new { id = Model.itemid }, new { @class = "btn btn-link disabled" })| @Html.ActionLink("Back to List", "Index")</p>
+
+                        }
+                    }
+
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+

@@ -1,0 +1,248 @@
+﻿@model EverUnited.Models.Player
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+<h2>Edit Player</h2>
+
+<img src="@Model.profile_image" width="100" height="100" />
+@*@using (Html.BeginForm("FileUpload", "Player", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+{
+    <label for="file">Upload Image:</label>
+    <input type="file" name="file" id="file" style="width: 100%;" />
+    <input type="submit" value="Upload" id="upload" class="submit" disabled />
+}*@
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="component">
+
+
+        <table class="colorOfRowData">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Profile</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <th>@Html.HiddenFor(model => model.player_id)</th>
+
+                    <td>
+                        @Html.HiddenFor(m => m.player_id)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.name)</th>
+
+                    <td>
+                        @Html.TextBoxFor(m => m.name) <span style="color:red">@Html.ValidationMessageFor(model => model.name)</span>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.address)</th>
+                    <td>@Html.EditorFor(model => model.address)<span style="color:red"> @Html.ValidationMessageFor(model => model.address)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.city)</th>
+                    <td>@Html.EditorFor(model => model.city)<span style="color:red"> @Html.ValidationMessageFor(model => model.city)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.cell_number)</th>
+                    <td>@Html.EditorFor(model => model.cell_number)<span style="color:red"> @Html.ValidationMessageFor(model => model.cell_number)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.birthday)</th>
+                    <td>@Html.EditorFor(model => model.birthday)<span style="color:red"> @Html.ValidationMessageFor(model => model.birthday)YYYY-MM-DD</span></td>
+
+                </tr>
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.match_position)</th>
+                    <td>@Html.EditorFor(model => model.match_position) <span style="color:red">@Html.ValidationMessageFor(model => model.match_position)</span></td>
+
+                </tr>
+
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.shirt_number)</th>
+                    <td>@Html.EditorFor(model => model.shirt_number) <span style="color:red">@Html.ValidationMessageFor(model => model.shirt_number)</span></td>
+
+                </tr>
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.age)</th>
+                    <td>@Html.EditorFor(model => model.age) <span style="color:red">@Html.ValidationMessageFor(model => model.age)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.is_fit)</th>
+                    <td>@Html.EditorFor(model => model.is_fit) <span style="color:red">@Html.ValidationMessageFor(model => model.is_fit)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.dominant_foot)</th>
+                    <td>@Html.EditorFor(model => model.dominant_foot) <span style="color:red">@Html.ValidationMessageFor(model => model.dominant_foot)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.joining_date)</th>
+                    <td>@Html.EditorFor(model => model.joining_date)<span style="color:red"> @Html.ValidationMessageFor(model => model.joining_date)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.is_student)</th>
+                    <td>@Html.EditorFor(model => model.is_student)<span style="color:red"> @Html.ValidationMessageFor(model => model.is_student)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.club_position)</th>
+                    <td>@Html.EditorFor(model => model.club_position) <span style="color:red">@Html.ValidationMessageFor(model => model.club_position)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.is_captain)</th>
+                    <td>@Html.EditorFor(model => model.is_captain)<span style="color:red"> @Html.ValidationMessageFor(model => model.is_captain)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.left_date)</th>
+                    <td>@Html.EditorFor(model => model.left_date)<span style="color:red"> @Html.ValidationMessageFor(model => model.left_date)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.favorite_team)<p style="color:blue">*Barcelona or Real Madrid</p></th>
+                    <td>@Html.EditorFor(model => model.favorite_team)<span style="color:red"> @Html.ValidationMessageFor(model => model.favorite_team)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.favorite_player)<p style="color:blue">*Messi or Ronaldo</p></th>
+                    <td>@Html.EditorFor(model => model.favorite_player)<span style="color:red"> @Html.ValidationMessageFor(model => model.favorite_player)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.about_player) <p style="color:blue">*Stunners FC Player</p></th>
+                    <td>@Html.TextAreaFor(model => model.about_player)<span style="color:red"> @Html.ValidationMessageFor(model => model.about_player)</span></td>
+
+                </tr>
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.username)</th>
+                    <td>@Html.EditorFor(model => model.username) <span style="color:red">@Html.ValidationMessageFor(model => model.username)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.password)</th>
+                    <td>@Html.EditorFor(model => model.password) <span style="color:red">@Html.ValidationMessageFor(model => model.password)</span></td>
+
+                </tr>
+                @{
+                        if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                        {
+                              <tr>
+
+                                        <th>@Html.LabelFor(model => model.role)</th>
+                                        <td>
+                                            <select id="role" name="role">
+
+                                                <option value="Admin">Admin</option>
+
+                                                <option selected="selected" value="Player">Player</option>
+
+                                                <option value="Super User">Super User</option>
+
+                                            </select>
+
+                                        </td>
+
+                                    </tr>
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(model=>model.role);
+                        }
+                }
+               
+
+                <tr>
+                    <th>Action</th>
+                    <td><input class="btn btn-primary" type="submit" value="Save" /> | @Html.ActionLink("Back to List", "Index")</td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+
+    </div>
+
+
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+
+@*<script type="text/javascript">
+    $(function () {
+
+        //when input's value changes
+        $("#file").change(function () {
+            if ($(this).val()) {
+                $("#upload").prop("disabled", false);
+            }
+            else {
+                $("#upload").prop("disabled", true);
+            }
+        });
+
+        //when button is clicked
+        $("#upload").click(function () {
+            if ($("#file").val()) {
+                console.log("file selected");
+            }
+        });
+    });
+
+</script>*@

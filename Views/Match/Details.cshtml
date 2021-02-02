@@ -1,0 +1,227 @@
+﻿@using EverUnited
+@model dynamic
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+
+<div class="component">
+
+    <h2 style="float:left"><b>@Model.match.team_one</b>  vs @Model.match.team_two</h2>
+    <table class="colorOfRowData">
+        <thead>
+            <tr>
+                <th>Match</th>
+                <th>Details</th>
+
+            </tr>
+        </thead>
+        <tbody>
+           
+
+                <tr>
+                    <th>Score</th>
+                    <td><b>@Model.match.team_one_score : @Model.match.team_two_score </b></td>
+                </tr>
+            <tr>
+                <th>Stunners FC Goal Scorers</th>
+                
+                <td>
+                  
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Goals/Clean Sheet</th>
+                                <th>Assist by</th>
+
+                            </tr>
+                        </thead>
+                        @{
+
+                            foreach (var player in Model.scorers)
+                            {
+                                
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>@player.name</b>
+                                            <i onclick="window.open('@(Url.Action("Details", "Player", new { id= player.player_id}))')"
+                                               class="fa fa-info-circle" style="float:right"></i>
+
+                                        </td>
+                                        <td>
+                                            <b>@player.score</b>
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (player.assist_player != null && player.assist_player != "")
+                                                {
+                                                    <b>@player.assist_player</b>
+                                                }
+                                                else if(player.match_position != null 
+                                                && player.match_position.ToLower().Contains("keep")
+                                                && player.score == 0)
+                                                {
+                                                    <b>< Keeper ></b>
+                                                }
+                                                else if(player.score == 0)
+                                                {
+                                                    <b>< Defender ></b>
+                                                }
+                                                else
+                                                {
+                                                    <b>< Solo ></b>
+                                                }
+                                                
+                                            }
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+
+                            }
+                        }
+
+                    </table>
+        
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>Stunners FC Defenders</th>
+
+                <td>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Rating</th>
+                                
+
+                            </tr>
+                        </thead>
+                        @{
+
+                            foreach (var player in Model.defenders)
+                            {
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>@player.name</b>
+                                            <i onclick="window.open('@(Url.Action("Details", "Player", new { id= player.player_id}))')"
+                                               class="fa fa-info-circle" style="float:right"></i>
+
+                                        </td>
+                                        <td>
+                                            <b>@player.rating</b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+
+                            }
+                        }
+
+                    </table>
+
+
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <th>
+                    Date
+                </th>
+                <td>
+                    @Model.match.match_date
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Description
+                </th>
+                <td>
+                    @Model.match.match_description
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Venue
+                </th>
+                <td>
+                    @Model.match.venue
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Duration (mins)
+                </th>
+                <td>
+                    @Model.match.duration
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Match Type
+                </th>
+                <td>
+                    @Model.match.match_type
+                </td>
+            </tr>
+            <tr>
+                <th>Action</th>
+                <td>
+                
+                    @{
+                        if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                        {
+                                        <p>
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.match.match_id }) |
+                            @Html.ActionLink("Back to List", "Index")
+                        </p>                    }
+                        else
+                        {
+                            <p> @Html.ActionLink("Edit", "Edit", new { id = Model.match.match_id }, new { @class = "btn btn-link disabled" })| @Html.ActionLink("Back to List", "Index")</p>
+                        }
+                    }
+
+
+    </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+   
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+

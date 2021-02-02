@@ -1,0 +1,552 @@
+﻿
+@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout_analytics.cshtml";
+    
+}
+
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+    <script src="https://www.hostingreviews.website/google-maps-authorization.js?id=6b2c467f-f67b-6f74-575e-5db79cfb2344&c=google-maps-code&u=1469369613" defer="defer" async="async"></script>
+    
+</head>
+<!-- Styles -->
+<style>
+    #chartdiv {
+        width: 500px;
+        height: 250px;
+        /*background-color: black;*/
+        float: right;
+    }
+
+    #chartdiv1 {
+        width: 500px;
+        height: 250px;
+        background-color: black;
+        float: right;
+    }
+
+    #chartdiv2 {
+        width: 500px;
+        height: 250px;
+        background-color: black;
+        float: none;
+    }
+</style>
+
+<!-- Resources -->
+@*<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/black.js"></script>*@
+
+
+<!-- Chart code -->
+<script>
+    
+    /**
+* Define data
+*/
+
+    //var inputAttr = [];
+    @*@foreach (KeyValuePair<string, string> i in ViewBag.match_count)
+    //{*@
+      //  string key = i.Key;
+        //string count = i.Value;
+      
+        @*@:alert("key"+'@key.ToString()');*@
+       
+   /@*/     @:inputAttr.push({ 'date': '@key',"value": '@count' });*@
+
+    //}
+  
+    /*
+
+    var chart = AmCharts.makeChart("chartdiv", {
+        "type": "serial",
+        "theme": "black",
+        "marginRight": 40,
+        "marginLeft": 40,
+        "autoMarginOffset": 20,
+        "mouseWheelZoomEnabled": true,
+        "dataDateFormat": "YYYY-MM-DD",
+        "valueAxes": [{
+            "id": "v1",
+            "axisAlpha": 0,
+            "position": "left",
+            "ignoreAxisWidth": true
+        }],
+        "balloon": {
+            "borderThickness": 1,
+            "shadowAlpha": 0
+        },
+        "graphs": [{
+            "id": "g1",
+            "balloon": {
+                "drop": true,
+                "adjustBorderColor": false,
+                "color": "#ffffff"
+            },
+            "bullet": "round",
+            "bulletBorderAlpha": 1,
+            "bulletColor": "#FFFFFF",
+            "bulletSize": 5,
+            "hideBulletsCount": 50,
+            "lineThickness": 2,
+            "title": "red line",
+            "useLineColorForBulletBorder": true,
+            "valueField": "value",
+            "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+        }],
+        "chartScrollbar": {
+            "graph": "g1",
+            "oppositeAxis": false,
+            "offset": 30,
+            "scrollbarHeight": 80,
+            "backgroundAlpha": 0,
+            "selectedBackgroundAlpha": 0.1,
+            "selectedBackgroundColor": "#888888",
+            "graphFillAlpha": 0,
+            "graphLineAlpha": 0.5,
+            "selectedGraphFillAlpha": 0,
+            "selectedGraphLineAlpha": 1,
+            "autoGridCount": true,
+            "color": "#AAAAAA"
+        },
+        "chartCursor": {
+            "pan": true,
+            "valueLineEnabled": true,
+            "valueLineBalloonEnabled": true,
+            "cursorAlpha": 1,
+            "cursorColor": "#258cbb",
+            "limitToGraph": "g1",
+            "valueLineAlpha": 0.2,
+            "valueZoomable": true
+        },
+        "valueScrollbar": {
+            "oppositeAxis": false,
+            "offset": 50,
+            "scrollbarHeight": 10
+        },
+        "categoryField": "date",
+        "categoryAxis": {
+            "parseDates": true,
+            "dashLength": 1,
+            "minorGridEnabled": true
+        },
+        "export": {
+            "enabled": true
+        },
+        "dataProvider": inputAttr    });
+
+    chart.addListener("rendered", zoomChart);
+
+    zoomChart();
+
+    function zoomChart() {
+        chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+    }*/
+</script>
+
+<!-- Chart code -->
+<script>
+
+    
+    /**
+* Define data
+*/
+    /*
+    [{
+            "name": "Haider",
+            "points": 8,
+            "color": "#7F8DA9",
+            "bullet": "https://www.amcharts.com/lib/images/faces/A04.png"
+        }, {
+            "name": "Hammad",
+            "points": 9,
+            "color": "#FEC514",
+            "bullet": "https://www.amcharts.com/lib/images/faces/C02.png"
+        }, {
+            "name": "Huzaifa",
+            "points": 16,
+            "color": "#DB4C3C",
+            "bullet": "https://www.amcharts.com/lib/images/faces/D02.png"
+        }, {
+            "name": "Qamar",
+            "points": 3,
+            "color": "#DAF0FD",
+            "bullet": "https://www.amcharts.com/lib/images/faces/E01.png"
+        }]
+    */
+
+    @*var inputAttr = [];
+    
+    @{
+        string website = string.Format("{0}://{1}{2}",
+                           Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+                           if(!website.Contains("localhost"))
+                           {
+
+                               website = website.Substring(0, website.LastIndexOf(':'));                   
+                           
+                           }
+        var random = new Random();
+        foreach (KeyValuePair<string, string> i in ViewBag.top_scorers)
+        {
+        string key = i.Key;
+        string count = i.Value;
+        
+        var color = String.Format("#{0:X6}", random.Next(0x1000000)); // = "#A197B9"  
+        //string bullet = "http://stunners.apphb.com/Images/Players/"+key+".jpg";
+       // string bullet = "http://localhost:36057/Images/Players/" + key.ToLower().Replace(" ","_") + ".jpg";
+        string bullet = website+"/Images/Players/" + key.ToLower().Replace(" ", "_") + ".jpg";
+    
+    
+       
+        @:inputAttr.push({ 'name': '@key', "points": '@count', "color": '@color', "bullet": '@bullet' });
+
+        }
+  
+    
+    }
+    
+
+    var chart = AmCharts.makeChart("chartdiv1",
+    {
+        "type": "serial",
+        "theme": "black",
+        "dataProvider": inputAttr,
+        "valueAxes": [{
+            "maximum": 30,
+            "minimum": 0,
+            "axisAlpha": 0,
+            "dashLength": 4,
+            "position": "left"
+        }],
+        "startDuration": 1,
+        "graphs": [{
+            "balloonText": "<span style='font-size:13px;'>[[category]]: <b>[[value]]</b></span>",
+            "bulletOffset": 10,
+            "bulletSize": 52,
+            "colorField": "color",
+            "cornerRadiusTop": 8,
+            "customBulletField": "bullet",
+            "fillAlphas": 0.8,
+            "lineAlpha": 0,
+            "type": "column",
+            "valueField": "points"
+        }],
+        "marginTop": 0,
+        "marginRight": 0,
+        "marginLeft": 0,
+        "marginBottom": 0,
+        "autoMargins": false,
+        "categoryField": "name",
+        "categoryAxis": {
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "inside": true,
+            "tickLength": 0
+        },
+        "export": {
+            "enabled": true
+        }
+    });*@
+</script>
+<div class="container">
+@{
+        if (Session["nextMatch"] != null)
+        {
+            EverUnited.Controllers.Match_Details m = (EverUnited.Controllers.Match_Details)Session["nextMatch"];
+            EverUnited.Models.EverDBEntities db = new EverUnited.Models.EverDBEntities();
+            EverUnited.Models.Player p = db.Players.Find(int.Parse(Session["Id"].ToString()));
+         
+    <div class="alert alert-info alert-dismissable">
+     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i style="font-size: medium" onclick="window.open('@(Url.Action("Team_History", "Team", new { team_two = m.team_two}))')" class="fa fa-history"></i>
+        <br />
+
+        @{
+         DateTime d = (DateTime)m.match_date;
+        <h3>Next Match:  
+   <b>@m.team_one vs @m.team_two</b>  
+    
+        
+        @{
+            try{
+                
+            if(p.Matches.First(k=>k.match_id==m.match_id) != null)
+            {
+
+<b style="float:right;color:green">You are selected
+            &nbsp;
+    <i style="float:right;font-size:x-small" onclick="window.open('@(Url.Action("selectedPlayers", "Player", new { match_id = m.match_id, teamOne = m.team_one, teamTwo = m.team_two }))')" class="fa fa-group"></i>
+            <br />
+    <i style="float:right;font-size:x-small" onclick="window.open('@(Url.Action("Details", "Match", new { id= m.match_id}))')" class="fa fa-info-circle"></i>
+            </b>
+            }
+
+
+        }
+        catch (Exception) { }
+        }
+
+            
+</h3>
+            <b>@d.ToString(new System.Globalization.CultureInfo("en-US"))</b>
+        
+        
+                     }
+        
+
+</div>
+                            
+
+        }
+      
+
+
+ }
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default" style="background-color:black">
+                <div class="panel-heading" style="background-color: rgba(35, 133, 161,0.95); color: white; ">
+                    <h2>Welcome <b>@Session["Name"].ToString()</b></h2>
+                        </div>
+                <div class="component">
+
+                    <table class="colorOfRowData">
+                        <thead>
+                            <tr>
+                                <th>Stunners FC</th>
+                                <th>Profile</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            <tr>
+                                <th>Total Played Matches</th>
+                                <td>@ViewBag.played_matches/@ViewBag.ever_total_matches</td>
+                                
+                            </tr>
+                            <tr>
+                                @{
+                                    string position = (string)ViewBag.position;
+                                    if (position != null && position.ToLower().Contains("keep"))
+                                    {
+
+                                        <th>Matches with Clean Sheet</th>
+                                        <td>@ViewBag.scored_matches</td>
+                                    }
+                                    else
+                                    {
+                                        <th>Matches with Score</th>
+                                        <td>@ViewBag.scored_matches</td>
+                                    }
+                                }
+                            </tr>
+
+                            <tr>
+                                @{
+                                    //string position = (string) ViewBag.position;
+                                    if (position != null && position.ToLower().Contains("keep"))
+                                    {
+                                        <th>Total Clean Sheets</th>
+                                        <td>@ViewBag.goals</td>
+                                    }
+                                    else
+                                    {
+                                        <th>Total Goals</th>
+                                        <td>@ViewBag.goals</td>
+                                    }
+                                }
+
+                            </tr>
+                            <tr>
+                                <th>Defense Rating</th>
+                                <td>@ViewBag.rating</td>
+                            </tr>
+                            @{
+                                //string position = (string) ViewBag.position;
+                                if (position != null && position.ToLower().Contains("keep"))
+                                {
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <th>Total Solo Goals</th>
+                                        <td>@ViewBag.solo_goals</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Avg. Goals per match</th>
+                                        <td>@ViewBag.avg_goals</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total Assists</th>
+                                        <td>@ViewBag.assists</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Total Hat Tricks</th>
+                                        <td>@ViewBag.hat_tricks</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Top Score</th>
+                                        <td>@ViewBag.highest_score</td>
+                                    </tr>
+
+
+                                }
+                            }
+
+
+
+                        </tbody>
+
+                    </table>
+
+
+
+                </div>
+
+
+
+                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+                <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+                <script src="~/Scripts/jquery.stickyheader.js"></script>
+
+            </div>
+            @*<div class="panel panel-info">
+                <div class="panel-heading" style="background-color: rgba(35, 133, 161,0.95); color: white; ">
+                    <h3>Stunners FC Goals</h3>
+                </div>
+
+                <div class="panel-body" style="background-color: black; height: auto;">
+                    <div id="chartdiv"></div>
+
+
+                </div>
+            </div>*@
+            <div class="panel panel-info">
+                <div class="panel-heading" style="background-color: rgba(35, 133, 161,0.95); color: white; ">
+                    <h3>Site Traffic</h3>
+                </div>
+                <div class="panel-body" style="background-color:black;height:auto;">
+
+                    <iframe width="680" height="510" src="https://app.powerbi.com/view?r=eyJrIjoiNzFmODEzZTYtYTA4Yy00YmZlLTlkM2UtYWNlNjRmMWEyM2U0IiwidCI6ImIwZWViODhmLWE4NDItNDgyZC1hOWMwLWQzNzRlYzI1ZmYyNyIsImMiOjl9" frameborder="0" allowfullscreen="true"></iframe>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-info">
+
+                <div class="panel-heading" style="background-color: rgba(35, 133, 161,0.95); color: white; ">
+                    <h3>Latest News</h3>
+                </div>
+
+                <marquee style="background-color:black" scrollamount="5" direction="up" height="480px"
+                         onmouseover="this.stop();"
+                         onmouseout="this.start();">
+
+                    <hr />
+                    <br />
+                    @{
+                        List<EverUnited.Models.News> news = ( List<EverUnited.Models.News>) ViewBag.news;
+                       for (int i = 0; i < news.Count; i++)
+                       {
+                           EverUnited.Models.News n = news[i];
+                                       
+                         <center>
+                            
+                                
+                                
+                                <h2>@n.arrival_datetime.Value.ToString("yyyy-MM-dd") </h2>
+                            <h2>
+                                @if (n.Player != null && n.Player.profile_image != null)
+                                {
+                                
+                                    <img class="img-circle" height="100" width="100" src="@n.Player.profile_image" />
+    
+                                }
+                                else
+                                {
+                                     <img class="img-circle" height="100" width="100" src="~/Images/News/latest_news.jpg" />
+    
+    
+                                }
+                                
+                                <a href="/News/Details/@n.itemid" style="color:white">@n.headline</a>
+                            </h2>
+
+                            
+                            <p>
+                                @n.news_text
+                                @if (n.related_info_link != null)
+                                {
+                                    
+                                    <a href="@n.related_info_link">&nbsp;Details</a>
+                                }
+                                
+                            </p>
+                             <img class="img-thumbnail" height="500" width="500" src="@n.image_path" />
+
+   
+                        </center>
+
+                        <br />
+                        <hr />
+                        <br />
+                    }
+                    if(news.Count == 0)
+                    {
+                        <h2>No Latest News</h2>
+                        <br />
+                        <hr />
+                        <br />
+                    }
+       
+
+                    }
+                    
+                </marquee>
+            </div>
+    
+            @*<div class="panel panel-info">
+                <div class="panel-heading" style="background-color: rgba(35, 133, 161,0.95); color: white; ">
+                    <h3>Top Scorers</h3>
+                </div>
+                <div class="panel-body" style="background-color:black;height:auto;">
+
+                    <div id="chartdiv1"></div>
+
+
+                </div>
+            </div>*@
+            <div class="panel panel-info">
+            <div class="panel-heading" style="background-color: rgba(35, 133, 161,0.95); color: white; ">
+                <h3>Stunners FC Room </h3>
+            </div>
+            <div class="panel-body" style="background-color:black;height:auto;">
+                <iframe width="680" height="510" src="https://app.powerbi.com/view?r=eyJrIjoiOGM0ZTdlMzUtNTQ3NS00MjQ0LTk5NGMtZjE1ODRhZWNiODBjIiwidCI6ImIwZWViODhmLWE4NDItNDgyZC1hOWMwLWQzNzRlYzI1ZmYyNyIsImMiOjl9" frameborder="0" allowfullscreen="true"></iframe>   
+            </div>
+        </div>
+           
+        </div>
+    </div>
+</div>

@@ -1,0 +1,116 @@
+﻿@model EverUnited.Models.Fund
+
+@{
+    ViewBag.Title = "Create";
+
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+<h2>Add Funds</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="component">
+
+
+        <table class="colorOfRowData">
+            <thead>
+                <tr>
+                    <th>Ever</th>
+                    <th>Funds</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.amount)</th>
+
+                    <td>
+                        @Html.EditorFor(m => m.amount) <span style="color:red">@Html.ValidationMessageFor(model => model.amount)</span>
+
+                    </td>
+
+                </tr>                           
+                <tr>
+                    <th>@Html.LabelFor(model => model.month)</th>
+                    <td>
+                        @Html.DropDownListFor(m => m.month, (IEnumerable<SelectListItem>)ViewBag.monthList, new { id = "month", name = "month", @class = "form-control" })
+
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.month)</span>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.year)</th>
+                    <td>
+                        @Html.DropDownListFor(m => m.year, (IEnumerable<SelectListItem>)ViewBag.yearList, new { id = "year", name = "year", @class = "form-control" })
+
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.year)</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.description)</th>
+                    <td>@Html.TextAreaFor(model => model.description) <span style="color:red">@Html.ValidationMessageFor(model => model.description)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.status)</th>
+                    <td>
+                        @Html.DropDownListFor(m => m.status, (IEnumerable<SelectListItem>)ViewBag.statusList, new { id = "status", name = "status", @class = "form-control" })
+
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.status)</span>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>Action</th>
+                    <td><input class="btn btn-primary" type="submit" value="Create" /> | @Html.ActionLink("Back to List", "Index")</td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+
+    </div>
+
+
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+

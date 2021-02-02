@@ -1,0 +1,150 @@
+﻿@model EverUnited.Models.News
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+
+<h2>Add News & Events</h2>
+
+@using (Html.BeginForm("Edit", "News", FormMethod.Post,
+                                      new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="component">
+
+
+        <table class="colorOfRowData">
+            <thead>
+                <tr>
+                    <th>News</th>
+                    <th>Events</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @Html.HiddenFor(model => model.itemid)
+                @Html.HiddenFor(m => m.itemid)
+                @Html.HiddenFor(model => model.record_sequence_number)
+                @Html.HiddenFor(m => m.record_sequence_number)
+                @Html.HiddenFor(model => model.arrival_datetime)
+                @Html.HiddenFor(m => m.arrival_datetime)
+
+
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.headline)</th>
+
+                    <td>
+                        @Html.TextAreaFor(m => m.headline) <span style="color:red">@Html.ValidationMessageFor(model => model.headline)</span>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.news_text)</th>
+                    <td>@Html.TextAreaFor(model => model.news_text)<span style="color:red"> @Html.ValidationMessageFor(model => model.news_text)</span></td>
+
+                </tr>
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.about_player_id)</th>
+                    <td>@Html.DropDownList("about_player_id", String.Empty) <span style="color:red">@Html.ValidationMessageFor(model => model.about_player_id)</span></td>
+
+                </tr>
+
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.related_info_link)</th>
+                    <td>@Html.EditorFor(model => model.related_info_link) <span style="color:red">@Html.ValidationMessageFor(model => model.related_info_link)</span></td>
+
+                </tr>
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.image_path)</th>
+
+                    <td>
+                        <input type="file" name="image_path" id="image_path" style="width: 100%;" />
+                        @if (Model.image_path != null)
+                        {
+                            <img width="100" height="100" src="@Model.image_path" class="img-thumbnail" style="float:right" />
+
+                        }
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.image_path)</span>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.audio_path)</th>
+                    <td><input type="file" name="audio_path" id="audio_path" style="width: 100%;" disabled/> <span style="color:red">@Html.ValidationMessageFor(model => model.audio_path)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.video_path)</th>
+                    <td><input type="file" name="video_path" id="video_path" style="width: 100%;" disabled/> <span style="color:red">@Html.ValidationMessageFor(model => model.video_path)</span></td>
+
+                </tr>
+
+                <tr>
+
+                    <th>@Html.LabelFor(model => model.status)</th>
+                    <td>
+                        <select id="status" name="status">
+
+                            <option selected="selected" value="1">Publish</option>
+                            <option value="2">Active</option>
+                            <option value="3">Disable</option>
+                            <option value="4">Inactive</option>
+
+                        </select>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>Action</th>
+                    <td><input class="btn btn-primary" type="submit" value="Save" /> | @Html.ActionLink("Back to List", "Index")</td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+
+    </div>
+
+
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+

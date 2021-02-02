@@ -1,0 +1,267 @@
+﻿@model EverUnited.Models.Player
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+
+<img src="@Model.profile_image" width="100" height="100" />
+<div class="component">
+
+    <h2 style="float:left">@Html.DisplayFor(model => model.name)</h2>
+    <table class="colorOfRowData">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Profile</th>
+
+            </tr>
+        </thead>
+        <tbody>
+           
+
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.player_id)</th>
+                    <td>@Html.DisplayFor(model => model.player_id)</td>
+                </tr>
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.name)</th>
+                <td>@Html.DisplayFor(model => model.name)</td>
+            </tr>
+          
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.address)</th>
+                <td>@Html.DisplayFor(model => model.address)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.city)</th>
+                <td>@Html.DisplayFor(model => model.city)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.cell_number)</th>
+                <td>@Html.DisplayFor(model => model.cell_number)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.birthday)</th>
+                <td>@Html.DisplayFor(model => model.birthday)</td>
+            </tr>
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.match_position)</th>
+                <td>@Html.DisplayFor(model => model.match_position)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.age)</th>
+                <td>@Html.DisplayFor(model => model.age)</td>
+            </tr>
+            <tr>
+                @{
+                    if(Model.match_position != null && Model.match_position.ToLower().Contains("keep"))
+                    {
+                       <th>Total Clean Sheets</th>
+                        <td>@ViewBag.goals_count
+                            <i style="float:right" onclick="window.open('@(Url.Action("Player_Match_Details", "Player", new { id= Model.player_id}))')" class="fa fa-info-circle"></i>
+                        </td> 
+                    }
+                    else
+                    {
+                        
+                       <th>Total Goals</th>
+                        <td>@ViewBag.goals_count
+                            <i style="float:right" onclick="window.open('@(Url.Action("Player_Match_Details", "Player", new { id= Model.player_id}))')" class="fa fa-info-circle"></i>
+                        </td>
+                    }
+                }
+                
+            </tr>
+            <tr>
+                @{
+                    <th>Rating</th>
+                        <td>
+                            @ViewBag.avg_rating
+                        <i style="float:right" onclick="window.open('@(Url.Action("Player_Match_Details", "Player", new { id= Model.player_id}))')" class="fa fa-info-circle"></i>
+                    </td>
+                }
+
+            </tr>
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.is_fit)</th>
+                <td>
+                    @{
+                        
+                        if (Model.is_fit == null)
+                        {
+                            <p>Not Set</p>
+                        }
+                        else if ((bool)Model.is_fit)
+                        {
+                            <p>Yes</p>
+                        }
+                        else
+                        {
+                             <p>No</p>
+                        }
+                        
+                    }
+
+
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.dominant_foot)</th>
+                <td>@Html.DisplayFor(model => model.dominant_foot)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.joining_date)</th>
+                <td>@Html.DisplayFor(model => model.joining_date)</td>
+            </tr>
+           
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.is_student)</th>
+                <td>
+                    @{
+
+                        if (Model.is_student == null)
+                        {
+                            <p>Not Set</p>
+                        }
+                        else if ((bool)Model.is_student)
+                        {
+                            <p>Yes</p>
+                        }
+                        else
+                        {
+                            <p>No</p>
+                        }
+
+                    }
+
+
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.club_position)</th>
+                <td>@Html.DisplayFor(model => model.club_position)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.favorite_team)</th>
+                <td>@*@Html.DisplayFor(model => model.favorite_team)*@ 
+                    @{
+                        if (Model.favorite_team != null)
+                        {
+                            string name = Model.favorite_team.ToString().ToLower();
+                            if(name.Contains("barc"))
+                            {
+                                name = "barca";
+                            }
+                            else if (name.Contains("madrid"))
+                            {
+                                name = "real";
+                            }
+                            
+                            string path = "/Images/" + name + ".png";
+
+
+                            <img src="@path" width="150" height="150" class="img-thumbnail" />
+                        }
+
+                    } 
+
+   
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.favorite_player)</th>
+                <td>@*@Html.DisplayFor(model => model.favorite_player)*@
+                @{
+                    if (Model.favorite_player != null)
+                    {
+                        string name = Model.favorite_player.ToString().ToLower();
+                        if (name.Contains("messi"))
+                        {
+                            name = "messi";
+                        }
+                        else if (name.Contains("ronaldo"))
+                        {
+                            name = "ronaldo";
+                        }
+                            
+                        string path = "/Images/"+name+".png";
+                            
+                            
+                        <img src="@path" width="150" height="150" class="img-thumbnail" />
+                    }
+                    
+                }    
+                
+
+                
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.about_player)</th>
+                <td>@Html.DisplayFor(model => model.about_player)</td>
+            </tr>
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.left_date)</th>
+                <td>@Html.DisplayFor(model => model.left_date)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.username)</th>
+                <td>@Html.DisplayFor(model => model.username)</td>
+            </tr>
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.shirt_number)</th>
+                <td>@Html.DisplayFor(model => model.shirt_number)</td>
+            </tr>
+
+            <tr>
+                <th>Action</th>
+                <td>
+                        @{
+                            if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                            {
+                                     <p>@Html.ActionLink("Edit", "Edit", new { id = Model.player_id })| @Html.ActionLink("Back to List", "Index")</p>
+                           
+                            }
+                            else
+                            {
+                                <p>@Html.ActionLink("Edit", "Edit", new { id = Model.player_id }, new { @class = "btn btn-link disabled" })| @Html.ActionLink("Back to List", "Index")</p>
+                                
+                            }
+                         }
+                    
+                    
+            </tr>
+
+        </tbody>
+
+    </table>
+
+   
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+

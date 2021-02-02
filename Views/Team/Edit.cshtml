@@ -1,0 +1,116 @@
+﻿@model EverUnited.Models.Team
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+<h2>Edit Team</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="component">
+
+
+        <table class="colorOfRowData">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Profile</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <th>@Html.HiddenFor(model => model.team_id)</th>
+
+                    <td>
+                        @Html.HiddenFor(m => m.team_id) 
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>@Html.LabelFor(model => model.name)</th>
+
+                    <td>
+                        @Html.TextBoxFor(m => m.name) <span style="color:red">@Html.ValidationMessageFor(model => model.name)</span>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.contact_person)</th>
+                    <td>@Html.EditorFor(model => model.contact_person)<span style="color:red"> @Html.ValidationMessageFor(model => model.contact_person)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.contact_number)</th>
+                    <td>@Html.EditorFor(model => model.contact_number)<span style="color:red"> @Html.ValidationMessageFor(model => model.contact_number)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.city)</th>
+                    <td>@Html.EditorFor(model => model.city)<span style="color:red"> @Html.ValidationMessageFor(model => model.city)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.address)</th>
+                    <td>@Html.EditorFor(model => model.address)<span style="color:red"> @Html.ValidationMessageFor(model => model.address)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.google_map)</th>
+                    <td>@Html.EditorFor(model => model.google_map)<span style="color:red"> @Html.ValidationMessageFor(model => model.google_map)</span></td>
+
+                </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.has_ground)</th>
+                    <td>@Html.EditorFor(model => model.has_ground)<span style="color:red"> @Html.ValidationMessageFor(model => model.google_map)</span></td>
+
+                </tr>
+
+                <tr>
+                    <th>Action</th>
+                    <td><input class="btn btn-primary" type="submit" value="Save" /> | @Html.ActionLink("Back to List", "Index")</td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+
+    </div>
+
+
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>

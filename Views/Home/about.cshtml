@@ -1,0 +1,109 @@
+﻿@{
+    //    Layout = null;
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+
+<html>
+<head>
+    
+    
+    <title>Stunners FC</title>
+<link href="~/Images/home.jpg" rel="shortcut icon" type="image/x-icon" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+
+<link href="~/Content/font-awesome.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/style.css" rel="stylesheet" />
+
+<!-- Start WOWSlider.com HEAD section --> <!-- add to the <head> of your page -->
+
+<link href="~/engine1/style.css" rel="stylesheet" />
+<script type="text/javascript" src="~/engine1/jquery.js"></script>
+    
+<!-- End WOWSlider.com HEAD section -->
+
+</head>
+<body>  
+    <!-- Start WOWSlider.com BODY section --> <!-- add to the <body> of your page -->
+    <div id="wowslider-container1">
+        <div class="ws_images">
+            <ul>
+                <!--Showing all images from folder-->
+                @*@{
+    string supportedExtensions = "*.jpg,*.gif,*.png,*.bmp,*.jpe,*.jpeg,*.ico";
+    int i=0;
+    foreach (string imgPath in Directory.GetFiles(Server.MapPath("~/data1/images/"), "*.*",
+    SearchOption.AllDirectories).Where(s => supportedExtensions.Contains(Path.GetExtension(s)
+    .ToLower())).OrderBy(m=> supportedExtensions))
+    {
+        var id = "wows1_"+(++i);
+        
+        var img = new FileInfo(imgPath);
+        <li>
+            <img id="@id" src="@Url.Content(String.Format("~/data1/images/{0}", img.Name))" />
+        </li>
+    }
+
+}*@
+                
+                <li><img src="~/data1/images/e3.jpg" alt="Stunners FC" title="Stunners FC" id="wows1_0" /></li>
+                <li><img src="~/data1/images/e1.jpg" alt="e1" title="e1" id="wows1_1" /></li>
+                <li><img src="~/data1/images/e2.jpg" alt="e2" title="e2" id="wows1_2" /></li>
+                
+                <li><img src="~/data1/images/e4.jpg" alt="e4" title="e4" id="wows1_6" /></li>
+                <li><img src="~/data1/images/e5.jpg" alt="e5" title="e5" id="wows1_7" /></li>
+                <li><img src="~/data1/images/e6.jpg" alt="e6" title="e6" id="wows1_8" /></li>
+                <li><img src="~/data1/images/e7.jpg" alt="e7" title="e7" id="wows1_9" /></li>
+                <li><img src="~/data1/images/e8.jpg" alt="e8" title="e8" id="wows1_10" /></li>
+                <li><img src="~/data1/images/e9.jpg" alt="e9" title="e9" id="wows1_11" /></li>
+                <li><img src="~/data1/images/e10.jpg" alt="e10" title="e10" id="wows1_12" /></li>
+                <li><img src="~/data1/images/e11.jpg" alt="e11" title="e11" id="wows1_13" /></li>
+                <li><img src="~/data1/images/e12.jpg" alt="e12" title="e12" id="wows1_14" /></li>
+                <li><img src="~/data1/images/e13.jpg" alt="e13" title="e13" id="wows1_15" /></li>
+                <li><img src="~/data1/images/e14.jpg" alt="e14" title="e14" id="wows1_16" /></li>
+                <li><img src="~/data1/images/e15.jpg" alt="e15" title="e15" id="wows1_17" /></li>
+                <li><img src="~/data1/images/e16.jpg" alt="e16" title="e16" id="wows1_18" /></li>
+                <li><img src="~/data1/images/e17.jpg" alt="e17" title="e17" id="wows1_19" /></li>
+                <li><img src="~/data1/images/e18.jpg" alt="e18" title="e18" id="wows1_20" /></li>
+                <li><img src="~/data1/images/e19.jpg" alt="e19" title="e19" id="wows1_21" /></li>
+                <li><img src="~/data1/images/e20.jpg" alt="css slider" title="e20" id="wows1_22" /></li>
+                <li><img src="~/data1/images/e21.jpg" alt="e21" title="e21" id="wows1_23" /></li>
+            </ul>
+        </div>
+        <div class="ws_bullets">
+            <div>
+                <a href="#" title="Stunners FC"><span><img src="~/data1/tooltips/e3.jpg" alt="Stunners FC" />1</span></a>
+                <a href="#" title="e1"><span><img src="~/data1/tooltips/e1.jpg" alt="e1" />2</span></a>
+                <a href="#" title="e2"><span><img src="~/data1/tooltips/e2.jpg" alt="e2" />3</span></a>
+                <a href="#" title="e4"><span><img src="~/data1/tooltips/e4.jpg" alt="e4" />7</span></a>
+                <a href="#" title="e5"><span><img src="~/data1/tooltips/e5.jpg" alt="e5" />8</span></a>
+                <a href="#" title="e6"><span><img src="~/data1/tooltips/e6.jpg" alt="e6" />9</span></a>
+                <a href="#" title="e7"><span><img src="~/data1/tooltips/e7.jpg" alt="e7" />10</span></a>
+                <a href="#" title="e8"><span><img src="~/data1/tooltips/e8.jpg" alt="e8" />11</span></a>
+                <a href="#" title="e9"><span><img src="~/data1/tooltips/e9.jpg" alt="e9" />12</span></a>
+                <a href="#" title="e10"><span><img src="~/data1/tooltips/e10.jpg" alt="e10" />13</span></a>
+                <a href="#" title="e11"><span><img src="~/data1/tooltips/e11.jpg" alt="e11" />14</span></a>
+                <a href="#" title="e12"><span><img src="~/data1/tooltips/e12.jpg" alt="e12" />15</span></a>
+                <a href="#" title="e13"><span><img src="~/data1/tooltips/e13.jpg" alt="e13" />16</span></a>
+                <a href="#" title="e14"><span><img src="~/data1/tooltips/e14.jpg" alt="e14" />17</span></a>
+                <a href="#" title="e15"><span><img src="~/data1/tooltips/e15.jpg" alt="e15" />18</span></a>
+                <a href="#" title="e16"><span><img src="~/data1/tooltips/e16.jpg" alt="e16" />19</span></a>
+                <a href="#" title="e17"><span><img src="~/data1/tooltips/e17.jpg" alt="e17" />20</span></a>
+                <a href="#" title="e18"><span><img src="~/data1/tooltips/e18.jpg" alt="e18" />21</span></a>
+                <a href="#" title="e19"><span><img src="~/data1/tooltips/e19.jpg" alt="e19" />22</span></a>
+                <a href="#" title="e20"><span><img src="~/data1/tooltips/e20.jpg" alt="e20" />23</span></a>
+                <a href="#" title="e21"><span><img src="~/data1/tooltips/e21.jpg" alt="e21" />24</span></a>
+            </div>
+        </div>
+        <div class="ws_shadow"></div>
+    </div>
+    
+    <script type="text/javascript" src="~/engine1/wowslider.js"></script>
+    <script type="text/javascript" src="~/engine1/script.js"></script>
+	
+</body>
+</html>

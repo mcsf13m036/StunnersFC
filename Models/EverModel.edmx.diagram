@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b1a0f9ac4a904f8788e81285fa55d8e6" Name="Diagram1">
+        <EntityTypeShape EntityType="EverDBModel.Match" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="EverDBModel.Player" Width="1.5" PointX="5.375" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EverDBModel.Team" Width="1.5" PointX="7.125" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="EverDBModel.Match_Stats" />
+        <EntityTypeShape EntityType="EverDBModel.News" Width="1.5" PointX="7.625" PointY="5.375" />
+        <AssociationConnector Association="EverDBModel.FK_News_Player" />
+        <EntityTypeShape EntityType="EverDBModel.Fund" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="EverDBModel.Player_Fund" />
+        <EntityTypeShape EntityType="EverDBModel.Match_Defender" Width="1.5" PointX="9.625" PointY="2.125" />
+        <AssociationConnector Association="EverDBModel.FK_Match_Defender_Match" />
+        <AssociationConnector Association="EverDBModel.FK_Match_Defender_Player" />
+        <EntityTypeShape EntityType="EverDBModel.Match_Scorer" Width="1.5" PointX="10.625" PointY="6" />
+        <AssociationConnector Association="EverDBModel.FK_Match_Scorer_Match" />
+        <AssociationConnector Association="EverDBModel.FK_Match_Scorer_Player" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

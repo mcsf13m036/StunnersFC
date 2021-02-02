@@ -1,0 +1,240 @@
+﻿@{
+    ViewBag.Title = "selectTeam";
+    Layout =  "~/Views/Shared/_Layout_team.cshtml";
+}
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        APIClicked();
+
+    });
+
+
+
+
+
+</script>
+
+<style type="text/css">
+    table, td {
+        background-color: azure;
+        border: double;
+    }
+
+    #dvleft {
+        background-color: ThreeDShadow;
+        height: 1000px;
+        width: 270px;
+    }
+    #dvright{
+        background-color: ThreeDShadow;
+        height: 1000px;
+        width: auto;
+    }
+</style>
+<script type="text/javascript">
+    function APIClicked()
+    {
+        $.ajax({
+            url: '/Players',
+            type: 'GET',
+            contentType: "application/json;charset=utf-8",
+        }).done(function (resp) {
+
+            for (var i = 0; i < resp.length; i++) {
+
+                $("#lstproducts").append("<li draggable='true' class='btn btn-outline btn-primary' >" + resp[i] + "</li>");
+
+            }
+            setEvents();
+            //setEventsSelected();
+        }).error(function (err) {
+            swal({
+                title: 'Error',
+                text: err.status,
+                // timer: 1000,
+                showConfirmButton: true,
+                confirmButtonText: 'OK',
+                closeOnConfirm: true,
+            });
+        });
+
+
+    }
+    function setEvents() {
+
+        var isDropped = false;
+        var lstProducts = $('li');
+
+        //Set Drag on Each 'li' in the list
+        $.each(lstProducts, function (idx, val) {
+            $('#lstproducts li').on('dragstart', function (evt) {
+                evt.originalEvent.dataTransfer.setData("Text", evt.target.textContent);
+                //evt.target.draggable = false;
+               // $(this).removeClass("btn btn-outline btn-primary").addClass("btn btn-primary");
+            });
+
+
+        });
+        //set the double click event
+   
+        
+//        $('#lstproducts li').on('dblclick touchstart', function (evt) {
+
+        $('#lstproducts li').on('click touchstart', function (evt) {
+            evt.preventDefault();
+            var data = evt.target.textContent;
+            var lst = $("#lstselectedproducts");
+            var li = "<li  class='btn btn-outline btn-success'>" + data + "</li>";
+            li.textContent = data;
+            lst.append(li);
+            reportUpdate(data);
+            evt.target.draggable = false;
+            $(this).removeClass("btn btn-outline btn-primary").addClass("btn btn-primary disabled");
+
+        });
+
+
+
+        //Set the Drop on the <div>
+        $("#dvright").on('drop', function (evt) {
+            evt.preventDefault();
+            var data = evt.originalEvent.dataTransfer.getData("Text");
+            var lst = $("#lstselectedproducts");
+
+            if ($('#lstselectedproducts li:contains("' + data + '")').length) {
+
+                //item is already there so cin.ignore
+            }
+            else
+            {
+                var li = "<li class='btn btn-outline btn-success'>" + data + "</li>";
+                li.textContent = data;
+                lst.append(li);
+                reportUpdate(data);
+                isDropped = true;
+
+            }
+
+        });
+
+
+        //The dragover
+        $("#dvright").on('dragover', function (evt) {
+            evt.preventDefault();
+        });
+
+        //-------------------------------------------------//
+        $.each(lstProducts, function (idx, val) {
+            $('li').on('dragend', function (evt) {
+                //evt.originalEvent.dataTransfer.setData("Text", evt.target.textContent);
+                if (isDropped)
+                {
+                    isDropped = false;
+                    evt.target.draggable = false;
+                    $(this).removeClass("btn btn-outline btn-primary").addClass("btn btn-primary disabled");
+                }
+
+            });
+        });
+
+
+    }
+    function reportUpdate(name)
+    {
+        var s = '@ViewBag.match_id';
+        
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("selectedTeam", "Match")',
+            //contentType: "application/json; charset=utf-8",
+            // data: { name: name,tool_name:s},
+            data: { name: name,match_id:s},
+
+           // dataType: "json",
+
+        }).done(function (resp) {
+            
+            //swal({
+            //    title:' Match is updated! ',
+            //    text: '',
+            //    timer: 1000,
+            //    showConfirmButton: false,
+
+            //});
+
+        });
+
+
+    }
+    function clearListData()
+    {
+
+        $('#lstselectedproducts').empty();
+        reportUpdate("clear");
+        //location.reload();
+
+        $('#lstproducts li').removeClass("btn btn-primary disabled").addClass("btn btn-outline btn-primary");
+       
+        
+    }
+
+
+    //-------------------------------------------------------------//
+
+</script>
+
+<link href="~/Content/font-awesome.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/sb-admin-2.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert.min.js"></script>
+
+
+<h2><b>@ViewBag.teamOne</b> vs <span style="border-left-color:blue">@ViewBag.teamTwo</span> </h2>
+
+<div class="alert alert-info alert-dismissable">
+    @*Double*@ Click/Drag & Drop the player.
+</div>
+<a class="btn btn-warning" style="float:left" onclick='clearListData()'>Remove All</a>
+<br /><br />
+<a href="/Match/Index" style="float:left" class="btn btn-success">Save&nbsp;<i class='fa fa-save'></i></a>
+<br /><br />
+<div class="row">
+    
+    <div class="col-md-4">
+
+        <table>
+            <tr>
+                <td>
+                    <h3 style="color:black">Player List</h3>
+                </td>
+                <td>
+                    <h3 style="color:black">Selected Player(s)</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="dvleft">
+
+                        <ul id="lstproducts"></ul>
+                    </div>
+                </td>
+                <td>
+                    <div id="dvright">
+                        
+                        <ul id="lstselectedproducts"></ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        @*<img id="reportImg" src="@Url.Action("AdHocReportUser", "BIChart")" alt="BI" />*@
+    </div>
+
+</div>

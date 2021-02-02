@@ -1,0 +1,429 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Stunners FC</title>
+    <link href="~/Images/home.jpg" rel="shortcut icon" type="image/x-icon" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+    
+
+
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-85095824-1', 'auto');
+        
+        //username custom dimension
+        var dimensionValue = '@Session["Name"]';
+        ga('set', 'dimension1', dimensionValue);
+
+        ga('send', 'pageview');
+
+    </script>
+
+</head>
+<body>
+
+
+    <div class="navbar navbar-default navbar-fixed-top">
+        <a class="navbar-brand" href="/Home/Index">
+            <img src="../../Images/home.jpg" alt="" class="img-responsive" width="70" height="70" />
+        </a>
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+            <div class="navbar-collapse collapse navbar-right scroll-me">
+
+                @if (Session["Name"] != null)
+                {
+                    try
+                    {
+
+                        <ul class="nav navbar-nav ">
+                            <li>
+                                <a href="#modal-profilePic" data-toggle="modal">
+                                    <img src="@Session["ProfilePic"].ToString()" class="img-circle" width="35" height="35" />
+
+                                </a>
+
+                            </li>
+
+                            <li><a href="/">HOME</a></li>
+                            <li><a href="/Dashboard">DASHBOARD &nbsp;<i class="fa fa-dashboard"></i></a></li>
+                            
+                            <li><a href="/Team">TEAMS &nbsp;<i class="fa fa-group" ></i></a></li>
+                             <li>
+                            <li><a href="/Player">PLAYERS &nbsp;<i class="fa fa-soccer-ball-o"></i></a></li>
+                            <li>
+                                <a href="/Match">MATCHES&nbsp;<i class="fa fa-gamepad"></i></a>
+                            </li>
+    
+                            <li><a href="/Chat">CHAT ROOM&nbsp;<i class="fa fa-comments"></i></a>
+                            </li>
+                            <li>
+
+                                @{
+                        string name = Session["Name"].ToString();
+                        if (name.Length > 15)
+                        {
+                            name = name.Substring(0, 15) + "...";
+                        }
+                                }
+                                <a class="dropdown-toggle" data-toggle="dropdown">
+                                    Hi! <b>@name</b>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" style="background-color: rgba(35, 133, 161,0.70);">
+                                    @{
+
+
+                                        <li>
+                                            @if (Session["my_funds"].ToString() != "0")
+                                            {
+
+                                                <a href="/Fund/Player_Funds/@int.Parse(Session["Id"].ToString())">
+
+                                                    MY FUNDS &nbsp;&nbsp;<i class='fa fa-money'></i>
+                                                    <div class="noti_bubble">&nbsp; @Session["my_funds"].ToString()&nbsp; </div>
+
+                                                </a>
+
+                                            }
+                                            else
+                                            {
+                                                <a style="float:left" href="/Fund/Player_Funds/@int.Parse(Session["Id"].ToString())">
+                                                    MY FUNDS &nbsp;&nbsp;
+                                                    <i class='fa fa-money'></i>
+                                                </a>
+
+                                            }
+                                        </li>
+                        if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin") || Session["Role"].ToString().Equals("Super User"))
+                        {
+
+                            <li><a href="/News">NEWS & EVENTS &nbsp;<i class="fa fa-newspaper-o"></i></a></li>
+
+                                        <li><a href="/Fund">FUNDS &nbsp;<i class="fa fa-money"></i></a></li>
+
+                                        <li>
+                                            <a href="/Home/Uploads">ADVANCE&nbsp;<i class="fa fa-upload blue"></i></a>
+                                        </li>
+                        }
+
+                        if (Session["Name"] != null)
+                        {
+
+                            <li>
+                                <a href="/Player/Edit/@Session["Id"].ToString()">PROFILE&nbsp;<i class="fa fa-user"></i></a>
+                            </li>
+                        }
+
+
+                                    }
+
+                                    <li>
+                                        <a href="/Account/LogOff">LOG OUT&nbsp;<i class="fa fa-sign-out blue"></i></a>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+
+
+
+                           
+           
+                        </ul>
+                    }
+                    catch
+                    {
+                    
+                    }
+
+                }
+                else
+                { 
+                    <ul class="nav navbar-nav ">
+                            <li><a href="/">HOME</a></li>
+                        
+                       
+                        </ul>
+                }
+            </div>
+
+        </div>
+    </div>
+    <!-- NAVBAR CODE END -->
+    
+    <div id="home">
+        <div class="overlay">
+            <!-- overylay class usage -->
+            <div class="container">
+                <div class="col-md-8 col-md-offset-2 text-center">
+
+                    @RenderBody()
+
+                    @RenderSection("scripts", required: false)
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="modal fade tiny" id="modal-profilePic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog layout-login">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span class='white bold block text-center margin-bottom-small'></span>
+                    <div class='panel themenav-border boxshadow-darkblue'>
+                        <div class='panel-encase'>
+                            <h3 class="btn btn-block btn-lg btn-success margin-bottom disabled"><i class='fa fa-photo'></i>&nbsp;&nbsp;<b>Profile Picture</b></h3>
+                            @using (Html.BeginForm("FileUpload", "Player", FormMethod.Post,
+                                      new { enctype = "multipart/form-data" }))
+                            {
+                                <br />
+
+                                <input type="file" name="file" id="file" style="width: 100%;" />
+                                <hr />
+                                <input type="submit" value="Upload" id="upload" class="btn btn-primary" disabled />
+                            }
+
+
+                            <div class="buttonHolder">
+                                <p>
+                                </p>
+                            </div>
+                        </div>
+                        <div class='panel-footer'>
+                            Please choose .jpg file
+                        </div>
+                    </div>
+                    <h6>
+                        <a data-dismiss="modal" class='white'>Close &times;</a>
+                    </h6>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- // modal-login -->
+
+    <footer>
+
+        © 2021 stunners.apphb.com  | <a href="#" target="_blank">by Hammad</a>
+
+        <div class="navbar-collapse collapse navbar-right scroll-me">
+            <ul class="nav navbar-nav ">
+                <li class="rss"><a href="#"><i class="fa fa-rss"></i></a></li>
+                <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li class="pinterest"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                <li class="github"><a href="#"><i class="fa fa-github"></i></a></li>
+                <li class="linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li class="vk"><a href="#"><i class="fa fa-vk"></i></a></li>
+                <li class="plus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li class="dropbox"><a href="#"><i class="fa fa-dropbox"></i></a></li>
+                <li class="vimeo"><a href="#"><i class="fa fa-vimeo-square"></i></a></li>
+
+            </ul>
+        </div>
+    </footer>
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    
+
+    <!-- FOOTER SECTION END-->
+    <!-- REQUIRED SCRIPTS FILES -->
+    <!-- CORE JQUERY FILE -->
+    <!-- REQUIRED BOOTSTRAP SCRIPTS -->
+    <script src="~/Scripts/bootstrap.js"></script>
+    <!-- CUSTOM SCRIPTS   -->
+    <script src="~/Scripts/custom.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //when input's value changes
+            $("#file").change(function () {
+                if ($(this).val()) {
+                    $("#upload").prop("disabled", false);
+                }
+                else {
+                    $("#upload").prop("disabled", true);
+                }
+            });
+
+            //when button is clicked
+            $("#upload").click(function () {
+                if ($("#file").val()) {
+                    console.log("file selected");
+                }
+            });
+        });
+
+    </script>
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    
+
+    <!-- FOOTER SECTION END-->
+    <!-- REQUIRED SCRIPTS FILES -->
+    <!-- CORE JQUERY FILE -->
+    @*<script src="~/Scripts/jquery-1.11.1.js"></script>
+     REQUIRED BOOTSTRAP SCRIPTS 
+    <script src="~/Scripts/bootstrap.js"></script>*@
+    
+    
+    @*<script>
+        function verifyEmail() {
+
+            var mail = $('#RegEmail').val();
+
+            $.ajax({
+                url: '@Url.Action("IsValidAddress", "Account")',
+                type: 'GET',
+                dataType: 'json',
+                data: { emailaddress: mail },
+                success: function (data) {
+
+                    if (data == false) {
+                        swal({
+                            title: "Email Verfication",
+                            text: 'Invalid email format or already exists',
+                            type: 'warning',
+                            showConfirmButton: true,
+
+
+                        });
+
+                        $('#RegEmail').val("");
+
+                    }
+                    else {
+
+                        swal({
+                            title: "Email Verfication",
+                            text: 'Success',
+                            type: 'success',
+                            timer: 1000,
+                            showConfirmButton: false,
+
+                        });
+                    }
+
+                }
+            });
+
+        }
+
+        function verifyPhone() {
+            var q = $('#Phone').val();
+            $.ajax({
+                url: '@Url.Action("IsInteger", "Item")',
+                type: 'GET',
+                dataType: 'json',
+                data: { value: q },
+                success: function (data) {
+
+                    if (data == false) {
+
+                        swal({
+                            title: "Data Verfication",
+                            text: 'Please enter phone number (do not use any dashes)',
+                            type: 'warning',
+                            showConfirmButton: true,
+
+
+                        });
+
+                        $('#Phone').val("");
+                    }
+                }
+            });
+
+        }
+
+        function sendMessage() {
+            var n = $('#contactName').val();
+            var s = $('#contactSubject').val();
+            var b = $('#contactBody').val();
+
+            $.ajax({
+                url: '@Url.Action("SendEmail", "Home")',
+                type: 'GET',
+                dataType: 'json',
+                data: { name: n, sub: s, body: b },
+                success: function (data) {
+
+                    if (data == true) {
+                        swal({
+                            title: "Smart Products",
+                            text: 'Your message has been delivered',
+                            type: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+
+                        $('#contactName').val("");
+                        $('#contactSubject').val("");
+                        $('#contactBody').val("");
+
+                    }
+                    else {
+                        swal({
+                            title: "Smart Products",
+                            text: 'Some issues with your request',
+                            type: 'error',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+
+                    }
+
+                }
+            });
+
+        }
+    </script>*@
+
+</body>
+
+</html>
+

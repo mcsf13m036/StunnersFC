@@ -1,0 +1,95 @@
+﻿@model IEnumerable<EverUnited.Models.Player>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+<body>
+
+    <h2><b>@ViewBag.teamOne</b> vs <span style="border-left-color:blue">@ViewBag.teamTwo</span> </h2>
+    @{
+        if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+        {
+      <a href="/Match/SelectTeam?match_id=@ViewBag.match_id&teamOne=@ViewBag.teamOne&teamTwo=@ViewBag.teamTwo" class="btn btn-default" style="float:left">Select Team&nbsp;<i class='fa fa-group'></i></a>
+        }
+    }
+    @*<input type="text" id="search" placeholder="Type to search" style="color:black" />*@
+    <div class="component">
+
+        <table class="colorOfRowData overflow-y">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Player Name</th>
+
+                </tr>
+            </thead>
+            <tbody id="tableid">
+                @foreach (var item in Model)
+                {
+
+
+
+                    //you will open user info page
+                    <tr>
+                        <th>@item.player_id </th>
+                        <td>
+                            @item.name
+                            <i style="float:right" onclick="window.open('@(Url.Action("Details", "Player", new { id= item.player_id}))')" class="fa fa-info-circle"></i>
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+    <script src="~/Scripts/jquery.stickyheader.js"></script>
+
+    <script>
+        $(function () {
+            $('.row').click(function () {
+
+            });
+            $('.row .link').click(function (e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    <script>
+
+        var $rows = $('#tableid tr');
+        $('#search').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    </script>
+
+</body>
+</html>
+
+

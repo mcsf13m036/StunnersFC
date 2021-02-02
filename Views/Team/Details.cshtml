@@ -1,0 +1,133 @@
+﻿@model EverUnited.Models.Team
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+    <script src="https://www.hostingreviews.website/google-maps-authorization.js?id=6b2c467f-f67b-6f74-575e-5db79cfb2344&c=google-maps-code&u=1469369613" defer="defer" async="async"></script>
+
+</head>
+<div class="component">
+
+    <h2 style="float:left">@Html.DisplayFor(model => model.name)</h2>
+    <table class="colorOfRowData">
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Profile</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.team_id)</th>
+                <td>@Html.DisplayFor(model => model.team_id)</td>
+            </tr>
+
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.name)</th>
+                <td>@Html.DisplayFor(model => model.name)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.contact_person)</th>
+                <td>@Html.DisplayFor(model => model.contact_person)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.contact_number)</th>
+                <td>@Html.DisplayFor(model => model.contact_number)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.address)</th>
+                <td>@Html.DisplayFor(model => model.address)</td>
+            </tr>
+            <tr>
+                <th>Google Map</th>
+                <td>
+                    <iframe src="@Model.google_map" width="400" height="300" frameborder="0" style="border:0"></iframe>
+                   
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.has_ground)</th>
+                <td>
+                @{
+                    if(Model.has_ground == null)
+                    {
+                        <p>Not Set</p>
+                    }
+                    else if((bool)Model.has_ground)
+                    {
+                        <p>Yes</p>
+                    }
+                    else
+                    {
+                        <p>No</p>
+                    }
+                    
+                }
+                
+                </td>
+            </tr>
+            @{
+                if(Model.name != "Stunners FC")
+                {
+                    <tr>
+                <th>History</th>
+                <td>
+
+                    <i style="font-size: x-large" onclick="window.open('@(Url.Action("Team_History", "Team", new { team_two = Model.name}))')" class="fa fa-history"></i>
+
+                </td>
+            </tr>
+                }
+            }
+            
+            <tr>
+                <th>Action</th>
+                <td>
+                    
+                        @{
+                            if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                            {
+                                <p>
+                                    @Html.ActionLink("Edit", "Edit", new { id = Model.team_id }) | @Html.ActionLink("Back to List", "Index")
+                                </p>
+                            }
+                            else
+                            {
+                              <p>@Html.ActionLink("Edit", "Edit", new { id = Model.team_id }, new { @class = "btn btn-link disabled" })| @Html.ActionLink("Back to List", "Index")</p>  
+                            }
+                        }
+
+
+                                         
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+
+</div>
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>

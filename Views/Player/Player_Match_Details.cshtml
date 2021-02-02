@@ -1,0 +1,96 @@
+﻿@using EverUnited.Controllers
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+
+<div class="component">
+
+    <h2 style="float:left">@ViewBag.player_name</h2>
+    <table class="colorOfRowData">
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Date</th>
+                @{
+                    string position = (string) ViewBag.position;
+                    if(position!=null && position.ToLower().Contains("keep"))
+                    {
+                      
+                           <th>Clean Sheets</th>
+        
+        
+                    }
+                    else
+                    {
+                         <th>Goals</th>
+        
+                    }
+                }
+            
+                <th>Rating</th>    
+            </tr>
+
+        </thead>
+        <tbody>
+
+
+            
+                @{
+                    
+                    List<Match_Scorer_Details> matchList = (List<Match_Scorer_Details>)ViewBag.matches;
+                    
+                    
+                    foreach (var item in matchList)
+                    {
+                        <tr>
+                            <th>
+                                @item.name
+                                <i style="float:right" onclick="window.open('@(Url.Action("Details", "Match", new { id= item.player_id}))')" class="fa fa-info-circle"></i>
+
+                            </th>
+                            <td>
+                                @item.score_description
+                            </td>
+
+                            <td>
+                                @item.score
+                            </td>
+                            <td>
+                                @item.assist_player
+                            </td>
+                        </tr>
+
+
+                    }
+                        
+                    
+                 }
+
+    </tbody>
+
+</table>
+
+
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+

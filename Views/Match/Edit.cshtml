@@ -1,0 +1,227 @@
+﻿@model EverUnited.Models.Match
+
+@{
+    ViewBag.Title = "Edit";
+        Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+    @*<script type="text/javascript">
+
+        function goalScorerOnLoad() {
+
+            var tos = $("#team_one_score").val();
+            var arrayList = '@ViewBag.playerList';
+            $("#team_one_players").val(arrayList);
+
+
+            tos = parseInt(tos);
+            if (tos > 0) {
+                $("#team_one_players").show();
+                $("#team_one_players_msg").show();
+                //            alert(tos);
+
+            }
+            else {
+                $("#team_one_players").hide();
+                $("#team_one_players_msg").hide();
+
+            }
+
+        }
+
+        window.onload = goalScorerOnLoad;
+
+    </script>*@
+</head>
+<h2>Edit Match</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="component">
+
+        <h3 style="float:left">Stunners FC vs</h3>
+        <table class="colorOfRowData">
+            <thead>
+                <tr>
+                    <th>Match</th>
+                    <th>Info</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                <tr>
+                    <th>@Html.HiddenFor(model => model.match_id)</th>
+
+                    <td>
+                        @Html.HiddenFor(m => m.match_id)
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>@Html.HiddenFor(model => model.team_one)</th>
+
+                    <td>
+                        @Html.HiddenFor(m => m.team_one)
+
+                    </td>
+
+                </tr>
+                <tr>
+                <tr>
+                    <th>
+                        @Html.LabelFor(model => model.team_two)
+                    </th>
+
+                    <td>
+                        @Html.DropDownListFor(m => m.team_two, (IEnumerable<SelectListItem>)ViewBag.teamList, new { id = "opponent", name = "opponent", @class = "form-control" })
+                    </td>
+
+                </tr>
+                <tr></tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.match_date)</th>
+                    <td>
+                        @Html.EditorFor(model => model.match_date)
+                    <span style="color:red"> @Html.ValidationMessageFor(model => model.match_date) YYYY-MM-DD HH:MM:SS AM/PM</span>
+                </td>
+
+            </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.team_one_score)</th>
+                    <td>
+                        @Html.TextBoxFor(model => model.team_one_score, new { id = "team_one_score", name = "team_one_score",
+                       type = "number"})<span style="color:red">
+                        @Html.ValidationMessageFor(model => model.team_one_score)
+                    </span>
+                    @*<input id="team_one_players" name="team_one_players" style="display:none" placeholder="Goal Scorer" />
+                    <p style="color:red;display:none" id="team_one_players_msg">Comma separated values e.g. hammad,qamar,haider</p>*@
+
+
+                </td>
+
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(model => model.team_two_score)</th>
+                <td>@Html.EditorFor(model => model.team_two_score)<span style="color:red"> @Html.ValidationMessageFor(model => model.team_two_score)</span></td>
+
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(model => model.venue)</th>
+                <td>@Html.EditorFor(model => model.venue)<span style="color:red"> @Html.ValidationMessageFor(model => model.venue)</span></td>
+
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(model => model.duration)</th>
+                <td>@Html.EditorFor(model => model.duration)<span style="color:red"> @Html.ValidationMessageFor(model => model.duration)</span></td>
+
+            </tr>
+            @*<tr>
+                    <th>@Html.LabelFor(model => model.google_map)</th>
+                    <td>
+
+                        <iframe id="google" name="google" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d217757.60734199235!2d74.18611899087716!3d31.483965682035606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190483e58107d9%3A0xc23abe6ccc7e2462!2sLahore%2C+Pakistan!5e0!3m2!1sen!2s!4v1469367002574" width="600" height="450" frameborder="0" style="border:0"></iframe>
+
+                       <input id="gm" name="gm" hidden/>
+                    </td>
+
+                </tr>*@
+
+            <tr>
+                <th>@Html.LabelFor(model => model.match_type)</th>
+                <td>
+                    @Html.DropDownListFor(m => m.match_type, (IEnumerable<SelectListItem>)ViewBag.matchType, new { id = "match_type", name = "match_type", @class = "form-control" })
+                </td>
+
+
+            </tr>
+                <tr>
+                    <th>@Html.LabelFor(model => model.match_description)</th>
+                    <td>
+                        @Html.TextAreaFor(model => model.match_description)</td>
+
+
+                </tr>
+
+                <tr>
+                    <th>Action</th>
+                    <td><input class="btn btn-primary" type="submit" value="Save" /> | @Html.ActionLink("Back to List", "Index")</td>
+
+                </tr>
+
+
+
+        </tbody>
+
+    </table>
+
+
+
+</div>
+
+
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+<script src="~/Scripts/jquery.stickyheader.js"></script>
+
+
+<script>
+
+    var img = document.getElementById('google');
+    var src = $('#google').attr('src');
+
+    $("#gm").val(src);
+    //alert(img.getAttribute('src')); // foo.jpg
+    //alert(img.src);                 // http://..../foo.jpg
+
+
+</script>
+<script>
+
+    function goalScorer() {
+
+        var tos = $("#team_one_score").val();
+        tos = parseInt(tos);
+        if (tos > 0) {
+            $("#team_one_players").show();
+            $("#team_one_players_msg").show();
+            //            alert(tos);
+
+        }
+        else {
+            $("#team_one_players").hide();
+            $("#team_one_players_msg").hide();
+
+        }
+
+    }
+
+  
+
+</script>

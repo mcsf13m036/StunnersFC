@@ -1,0 +1,259 @@
+﻿@using EverUnited
+@model dynamic
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_team.cshtml";
+}
+
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/component.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/sweetalert-dev.js"></script>
+
+</head>
+<body>
+    <h2>Matches</h2>
+    @{
+        if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+        {
+            <a class="btn btn-primary" href="/Match/Create" style="float:left">Add New &nbsp;<i class="fa fa-group"></i></a>
+        }
+    }
+    <input type="text" id="search" placeholder="Type to search" style="color:black" />
+    <div class="component">
+        <table class="colorOfRowData overflow-y" >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Match</th>
+                    <th>Add Scorer</th>
+                    <th>Add Defence Rating</th>
+                    <th>Select Team</th>
+                    <th>Venue</th>
+                    <th>Date</th>
+                    <th>Duration</th>
+                    <th>Match Type</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+
+                </tr>
+            </thead>
+            <tbody id="tableid">
+                @foreach (var item in Model.matches)
+                {
+
+
+
+                    <tr>
+                        <th>@item.match_id </th>
+                        <td>
+                            <p><b style="color:green">@item.team_one</b> vs <b>@item.team_two</b></p>
+                            <i style="float:right" onclick="window.open('@(Url.Action("Details", "Match", new { id= item.match_id}))')" class="fa fa-info-circle"></i>
+                        </td>
+                        <td>
+                            @{
+                                if (item.team_one_score != null)
+                                {
+                                    <b>@item.team_one_score : @item.team_two_score</b>
+                                }
+                                else
+                                {
+                                    <p>Not Set</p>
+                                }
+
+                                if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                                {
+                                 <a href="/Score/Create?match_id=@item.match_id" class="btn btn-default"><i class='fa fa-soccer-ball-o'></i></a>
+   
+                                }
+                                else
+                                {
+                                    <a href="" class="btn btn-default disabled">
+                                    <i class='fa fa-soccer-ball-o'></i></a>
+
+                                }
+                                
+                            }
+                            
+                            
+                        </td>
+                        <td>
+                            @{
+                                if (item.avg_def_rating != null)
+                                {
+                                    <b>@item.avg_def_rating</b>
+                                }
+                                else
+                                {
+                                    <p>Not Set</p>
+                                }
+
+                                if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                                {
+                                    <a href="/Defender/Rating?match_id=@item.match_id" class="btn btn-default"><i class='fa fa-bar-chart-o'></i></a>
+
+                                }
+                                else
+                                {
+                                    <a href="" class="btn btn-default disabled">
+                                        <i class='fa fa-bar-chart-o'></i>
+                                    </a>
+
+                                }
+
+                            }
+
+
+                        </td>
+
+                        <td>
+                            <i style="float:right" onclick="window.open('@(Url.Action("selectedPlayers", "Player", new { match_id = item.match_id, teamOne = item.team_one, teamTwo = item.team_two }))')" class="fa fa-info-circle"></i>
+                            @{
+                                @item.selected_players
+                                if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                                {
+                                <a href="/Match/SelectTeam?match_id=@item.match_id&teamOne=@item.team_one&teamTwo=@item.team_two" class="btn btn-default"><i class='fa fa-group'></i></a>
+
+                                }
+                                else
+                                {
+                                <a href="/Match/SelectTeam?match_id=@item.match_id&teamOne=@item.team_one&teamTwo=@item.team_two" class="btn btn-default disabled"><i class='fa fa-group'></i></a>
+
+                                }    
+                            }
+                            
+                            
+                        </td>
+
+                        <td>
+                            @item.venue
+                        </td>
+                        <td>
+                            @item.match_date
+                        </td>
+                        <td>
+                            @item.duration
+                        </td>
+                        <td>
+                            @item.match_type
+                        </td>
+
+                        @{
+                                if (Session["Role"] != null && Session["Role"].ToString().Equals("Admin"))
+                                {
+                                    <td class="link">
+
+
+                                        <a href="/Match/Edit/@item.match_id" class="btn btn-default"><i class='fa fa-edit'></i></a>
+
+                                    </td>
+                                    <td class="link"><a onclick="deleteFunction(@item.match_id)" class="btn btn-default"><i class='fa fa-remove'></i></a></td>
+
+                                }
+                                else
+                                {
+                                    <td class="link">
+
+
+                                        <a href="/Match/Edit/@item.match_id" class="btn btn-default disabled"><i class='fa fa-edit'></i></a>
+
+                                    </td>
+                                    <td class="link"><a onclick="deleteFunction(@item.match_id)" class="btn btn-default disabled"><i class='fa fa-remove'></i></a></td>
+                                }
+
+                        }
+
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+    <script src="~/Scripts/jquery.stickyheader.js"></script>
+
+    <script>
+
+        function deleteFunction(idd)
+        {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this match!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: "cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    swal({
+                        title: "Deleted!",
+                        text: 'Success',
+                        type:'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+
+                    });
+                    setTimeout(function () {
+                        window: location.href = "/Match/DeleteConfirmed?id=" + idd
+                    }, 2000);
+
+
+                } else {
+                    swal({
+                        title: "Cancelled",
+                        text: 'Match is safe :)',
+                        timer: 1000,
+                        showConfirmButton: false,
+
+                    });
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        $(function () {
+            $('.row').click(function () {
+
+            });
+            $('.row .link').click(function (e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    <script>
+
+        var $rows = $('#tableid tr');
+        $('#search').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    </script>
+
+</body>
+</html>
